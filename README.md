@@ -1,65 +1,83 @@
 # Quiz Galáctico
 
-Projeto didático em React + TypeScript + Vite, pronto para ser hospedado na Vercel. Inspira-se no padrão de navegação de um quiz comercial, mas usa conteúdo e ilustrações fictícios e próprios.
+Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil interativo semelhante ao utilizado em landing pages comerciais, mas com conteúdo, regras e ilustrações fictícios.
 
-## Estado atual — etapa 2
+## Estado atual — etapa 3
 
-- Estrutura React e TypeScript com verificações estritas.
-- Tela inicial responsiva, personagem fictício e ilustração SVG original.
-- Cabeçalho e navegação básica de ida/volta.
-- Botão de início abre um quiz de cinco perguntas fictícias.
-- Respostas com reações contextualizadas, avanço automático, progresso e navegação de retorno.
-- Tela de conclusão com resumo das respostas e reinício do quiz.
+- Landing page responsiva com ilustrações SVG próprias.
+- Quiz de cinco perguntas, com quatro alternativas cada.
+- Reações contextuais, avanço automático, navegação para trás e barra de progresso.
+- Formulário de demonstração com validação de nome e telefone fictícios.
+- Tela de carregamento temporizada (1,9 s).
+- Recomendação determinística de uma entre quatro naves fictícias, calculada pelas cinco respostas.
+- Resultado com ilustração, características, justificativas e resumo de respostas.
+- Botões para copiar o relatório, refazer o teste e retornar ao início.
 
-**Ainda não implementado:** formulário, tela de carregamento e recomendação personalizada. Esses recursos pertencem à etapa 3. As respostas são mantidas apenas em memória enquanto a página estiver aberta.
+## Privacidade e limite da simulação
 
-## Rodar localmente
+Não existe backend ou integração com WhatsApp. Os dados não são enviados para nenhum endpoint, analytics ou armazenamento local. O telefone informado é **validado e descartado** na transição do formulário; somente o primeiro nome permanece temporariamente no estado React, até reiniciar ou fechar a página.
 
-Requisito: Node.js 20.19+ ou 22.12+.
+Use dados **fictícios** ao testar o formulário. O botão de copiar gera um relatório local sem telefone. Todas as naves e suas características são inventadas.
+
+## Executar
+
+Requer Node.js 20.19+ ou 22.12+.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Para validar uma compilação de produção:
+Validar o projeto:
 
 ```bash
+npm run typecheck
 npm run build
 npm run preview
 ```
 
 ## Publicar na Vercel
 
-1. Envie o conteúdo do projeto a um repositório Git.
-2. Na Vercel, importe o repositório.
-3. Use framework `Vite`, comando `npm run build` e diretório de saída `dist` (também definidos em `vercel.json`).
-4. Faça o deploy. Não há necessidade de variáveis de ambiente nas etapas 1 e 2.
+1. Importe este repositório na Vercel.
+2. Framework: **Vite**.
+3. Build: `npm run build`.
+4. Diretório de saída: `dist`.
 
-## Estrutura
+Essas opções também estão presentes em `vercel.json`. Nenhuma variável de ambiente é necessária.
+
+## Organização
 
 ```text
 src/
-  App.tsx                     # Ponto de controle de navegação e estado do quiz
+  App.tsx                          # Orquestra as telas e o estado do fluxo
   components/
-    SiteHeader.tsx            # Status e indicador real de progresso
-    RocketIllustration.tsx    # Ilustração vetorial própria
-  features/quiz/
-    questions.ts              # Perguntas, opções e falas fictícias tipadas
-    useQuiz.ts                # Estado, avanço temporizado e navegação
+    SiteHeader.tsx                 # Progresso e status
+    RocketIllustration.tsx         # Ilustração da abertura
+    ShipIllustration.tsx           # Silhuetas SVG por nave
+  features/
+    quiz/
+      questions.ts                 # Dados das cinco perguntas
+      useQuiz.ts                   # Estado e transições do questionário
+    recommendation/
+      ships.ts                     # Catálogo fictício
+      recommend.ts                 # Regras e pontuação determinística
   screens/
-    HomeScreen.tsx            # Tela inicial
-    QuizScreen.tsx            # Questionário e tela de conclusão
+    HomeScreen.tsx                 # Abertura
+    QuizScreen.tsx                 # Questões
+    LeadScreen.tsx                 # Formulário local demonstrativo
+    LoadingScreen.tsx              # Carregamento temporizado
+    ResultScreen.tsx               # Resultado e relatório
   styles/
-    global.css                # Tokens de tema, layout e responsividade
-  main.tsx                    # Bootstrap React
-public/
-  favicon.svg
+    global.css                     # Estilos responsivos
 ```
 
-## Próximas etapas propostas
+## Etapas
 
-3. Adicionar formulário de demonstração, carregamento e recomendações fictícias definidas por regras.
-4. Refinar a experiência e validar o fluxo completo em ambiente de produção na Vercel.
+1. Base e tela inicial — concluída.
+2. Quiz e feedback dinâmico — concluída.
+3. Formulário, carregamento e recomendação — implementada.
+4. Refinamentos, testes finais e deploy na Vercel — **pendente de autorização**.
 
-O projeto não armazena dados pessoais nem envia informações para serviços externos.
+### Como funciona o mecanismo de recomendação
+
+`recommendShip(answers)` valida as cinco respostas e acumula pontos para cada nave. Cada escolha favorece dois modelos, com pontuações diferentes. A nave com maior pontuação é recomendada; em empate, prevalece a ordem estável do catálogo. A mesma combinação de respostas sempre gera a mesma recomendação. A camada visual não contém as regras de pontuação.

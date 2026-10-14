@@ -1,4 +1,3 @@
-import { questions } from '../features/quiz/questions';
 import type { QuizSession } from '../features/quiz/useQuiz';
 
 interface QuizScreenProps {
@@ -7,41 +6,6 @@ interface QuizScreenProps {
 }
 
 export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
-  if (quiz.isComplete) {
-    return (
-      <section className="quiz-entry quiz-complete" aria-labelledby="complete-title">
-        <div className="dialogue-section">
-          <div className="dialogue-symbol" aria-hidden="true">✦</div>
-          <div className="dialogue-box">
-            <span className="dialogue-speaker">COMANDANTE NOVA</span>
-            <p>Coordenadas recebidas! Seu perfil de missão foi mapeado.</p>
-          </div>
-        </div>
-        <div className="completion-marker">TRANSMISSÃO CONCLUÍDA · 5/5</div>
-        <h1 id="complete-title">MISSÃO REGISTRADA</h1>
-        <p className="quiz-entry-description">
-          Você completou as cinco perguntas. A demonstração termina aqui nesta etapa; o resultado personalizado será desenvolvido na etapa 3.
-        </p>
-        <div className="answers-summary" aria-label="Resumo das suas escolhas">
-          {questions.map((question, index) => (
-            <div className="answer-summary-row" key={question.id}>
-              <span className="answer-index">{String(index + 1).padStart(2, '0')}</span>
-              <span>
-                <span className="answer-question">{question.title}</span>
-                <strong>{question.options.find((option) => option.id === quiz.answers[question.id])?.title ?? 'Não respondida'}</strong>
-              </span>
-            </div>
-          ))}
-        </div>
-        <button className="primary-button" type="button" onClick={quiz.reset}>REFAZER O QUIZ</button>
-        <div className="quiz-bottom-actions">
-          <button className="back-button" type="button" onClick={quiz.goBack}>◀ REVISAR ÚLTIMA RESPOSTA</button>
-          <button className="back-button" type="button" onClick={onExit}>VOLTAR AO INÍCIO</button>
-        </div>
-      </section>
-    );
-  }
-
   const { question } = quiz;
   if (!question) return null;
 

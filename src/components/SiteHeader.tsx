@@ -1,5 +1,5 @@
 interface SiteHeaderProps {
-  progress: { step: number; total: number; complete: boolean } | null;
+  progress: { step: number; total: number; complete: boolean; label?: string } | null;
 }
 
 export function SiteHeader({ progress }: SiteHeaderProps) {
@@ -18,7 +18,7 @@ export function SiteHeader({ progress }: SiteHeaderProps) {
           </span>
         </div>
         <div className="header-progress">
-          <span>{progress ? progress.complete ? 'CONCLUÍDO' : 'FASE ' + progress.step + '/' + progress.total : 'PRONTO?'}</span>
+          <span>{progress ? progress.label ?? (progress.complete ? 'CONCLUÍDO' : 'FASE ' + progress.step + '/' + progress.total) : 'PRONTO?'}</span>
           <span className="progress-track" role="progressbar" aria-label="Progresso do questionário" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percentage}>
             <span className="progress-fill" style={{ width: percentage + '%' }} />
           </span>
