@@ -40,7 +40,7 @@ export class SpaceMusicEngine {
       return;
     }
 
-    const audioWindow = window as Window & { webkitAudioContext?: typeof AudioContext };
+    const audioWindow = window as typeof window & { webkitAudioContext?: typeof AudioContext };
     const AudioConstructor = audioWindow.AudioContext ?? audioWindow.webkitAudioContext;
     if (!AudioConstructor) return;
 
