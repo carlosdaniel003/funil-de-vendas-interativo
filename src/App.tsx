@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SiteHeader } from './components/SiteHeader';
 import { recommendShip } from './features/recommendation/recommend';
 import { useQuiz } from './features/quiz/useQuiz';
@@ -13,6 +13,7 @@ type View = 'home' | 'quiz' | 'loading' | 'result';
 export function App() {
   const [view, setView] = useState<View>('home');
   const [captainName, setCaptainName] = useState('');
+  const mainRef = useRef<HTMLElement>(null);
   const quiz = useQuiz();
 
   const recommendation = useMemo(
@@ -33,6 +34,12 @@ export function App() {
   }
 
   const finishLoading = useCallback(() => setView('result'), []);
+
+  // Reposiciona a página e o foco ao entrar em outra fase, inclusive no celular.
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+    mainRef.current?.focus({ preventScroll: true });
+  }, [view, quiz.stepIndex, quiz.isComplete]);
   const progress = view === 'home' ? null : {
     step: quiz.stepIndex + 1,
     total: quiz.totalSteps,
@@ -43,7 +50,7 @@ export function App() {
   return (
     <div className="app-shell">
       <SiteHeader progress={progress} />
-      <main className="main-content">
+      <main className="main-content" ref={mainRef} tabIndex={-1}>
         {view === 'home' && <HomeScreen onStart={() => reset('quiz')} />}
         {view === 'quiz' && !quiz.isComplete && <QuizScreen quiz={quiz} onExit={() => reset('home')} />}
         {view === 'quiz' && quiz.isComplete && recommendation && (

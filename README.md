@@ -2,7 +2,7 @@
 
 Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil interativo semelhante ao utilizado em landing pages comerciais, mas com conteúdo, regras e ilustrações fictícios.
 
-## Estado atual — etapa 3
+## Estado atual — etapa 4: responsividade mobile
 
 - Landing page responsiva com ilustrações SVG próprias.
 - Quiz de cinco perguntas, com quatro alternativas cada.
@@ -12,6 +12,9 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Recomendação determinística de uma entre quatro naves fictícias, calculada pelas cinco respostas.
 - Resultado com ilustração, características, justificativas e resumo de respostas.
 - Botões para copiar o relatório, refazer o teste e retornar ao início.
+- Layout adaptado a celulares pequenos, médios e grandes, tablets e dispositivos em paisagem.
+- Áreas de toque dimensionadas, suporte às margens seguras do celular, formulários sem zoom automático e retorno ao topo em cada etapa.
+- Estilos responsivos separados em `src/styles/responsive.css`.
 
 ## Privacidade e limite da simulação
 
@@ -68,7 +71,8 @@ src/
     LoadingScreen.tsx              # Carregamento temporizado
     ResultScreen.tsx               # Resultado e relatório
   styles/
-    global.css                     # Estilos responsivos
+    global.css                     # Estilos base, identidade visual e animações
+    responsive.css                 # Layouts fluidos, breakpoints, toque e safe areas
 ```
 
 ## Etapas
@@ -76,8 +80,12 @@ src/
 1. Base e tela inicial — concluída.
 2. Quiz e feedback dinâmico — concluída.
 3. Formulário, carregamento e recomendação — implementada.
-4. Refinamentos, testes finais e deploy na Vercel — **pendente de autorização**.
+4. Responsividade para celulares e refinamentos de navegação — **implementados**. Build e conferência visual em dispositivos reais devem ser confirmados no deploy Vercel; a conexão do deploy é gerenciada pelo proprietário do repositório.
 
 ### Como funciona o mecanismo de recomendação
 
 `recommendShip(answers)` valida as cinco respostas e acumula pontos para cada nave. Cada escolha favorece dois modelos, com pontuações diferentes. A nave com maior pontuação é recomendada; em empate, prevalece a ordem estável do catálogo. A mesma combinação de respostas sempre gera a mesma recomendação. A camada visual não contém as regras de pontuação.
+
+## Conferência de responsividade
+
+Larguras sugeridas para inspeção no DevTools: **280, 320, 360, 375, 390, 414, 430, 540, 768 e 820 CSS px**. Conferir todas as telas: abertura, cinco perguntas, formulário com teclado aberto, carregamento e resultado. Verificar também landscape e zoom de texto. Nenhuma etapa depende de rolagem horizontal.

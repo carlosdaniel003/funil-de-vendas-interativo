@@ -13,8 +13,8 @@
 }
 
 * { box-sizing: border-box; }
-html { min-width: 320px; }
-body { margin: 0; min-width: 320px; }
+html { min-width: 0; }
+body { margin: 0; min-width: 0; }
 button { font: inherit; }
 button:focus-visible { outline: 3px solid #f3ffcd; outline-offset: 4px; }
 
@@ -24,7 +24,7 @@ button:focus-visible { outline: 3px solid #f3ffcd; outline-offset: 4px; }
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-x: clip;
   background: radial-gradient(circle at 50% 38%, #0b2619 0%, #06130f 60%);
 }
 .app-shell::before {
@@ -149,29 +149,8 @@ button:focus-visible { outline: 3px solid #f3ffcd; outline-offset: 4px; }
 .quiz-entry-description { max-width: 580px; font-size: 16px; line-height: 1.9; color: var(--muted); }
 .secondary-button { cursor: pointer; margin-top: 18px; border: 1px solid #38694d; border-radius: 4px; padding: 16px 21px; background: #10271a; color: #aaf87c; font-weight: 800; }
 .secondary-button:hover { background: #193b29; }
-@media (max-width: 540px) {
-  .header-inner { padding: 13px 15px; gap: 10px; }
-  .host-avatar { width: 38px; height: 38px; flex-basis: 38px; }
-  .host-copy strong { font-size: 10px; }
-  .host-status { font-size: 9px; }
-  .header-progress { gap: 7px; font-size: 9px; }
-  .progress-track { width: 49px; height: 10px; }
-  .home-screen { padding-top: 38px; }
-  .eyebrow { font-size: 9px; }
-  .hero-title { font-size: clamp(34px, 9vw, 48px); }
-  .hero-description { font-size: 15px; }
-  .rocket-stage { margin-top: 8px; margin-bottom: 8px; }
-  .stage-notation { display: none; }
-  .dialogue-section { gap: 8px; }
-  .dialogue-symbol { flex-basis: 44px; font-size: 40px; }
-  .dialogue-box { padding: 17px 13px; }
-  .dialogue-box p { font-size: 14px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-}
 
-/* Etapa 2: cards de resposta, feedback contextual e resumo. */
+/* Quiz: alternativas, feedback contextual e resumo. */
 .quiz-screen { animation: reveal-screen 240ms ease-out; }
 @keyframes reveal-screen { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .question-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
@@ -217,16 +196,8 @@ button:focus-visible { outline: 3px solid #f3ffcd; outline-offset: 4px; }
 .answer-summary-row > span:last-child { display: grid; gap: 5px; }
 .answer-question { font-size: 11px; color: #93aa98; }
 .answer-summary-row strong { font-size: 14px; line-height: 1.5; }
-@media (max-width: 540px) {
-  .question-heading { align-items: flex-start; }
-  .question-index { padding-top: 5px; }
-  .option-card { gap: 10px; padding: 18px 13px; }
-  .option-indicator { flex-basis: 20px; font-size: 18px; }
-  .option-description { font-size: 12px; }
-  .quiz-screen .dialogue-section { margin-bottom: 24px; }
-}
 
-/* Etapa 3: formulário demonstrativo, carregamento e recomendação. */
+/* Formulário demonstrativo, carregamento e resultado. */
 .stage-title { margin: 18px 0 24px; font-size: clamp(27px, 5vw, 38px); line-height: 1.2; letter-spacing: -.05em; }
 .lead-form { display: grid; gap: 11px; }
 .lead-form label { color: var(--green-bright); font-size: 12px; font-weight: 800; letter-spacing: .07em; }
@@ -298,8 +269,4 @@ button:focus-visible { outline: 3px solid #f3ffcd; outline-offset: 4px; }
 .summary-heading { margin: 0; padding: 17px 16px; border-bottom: 1px solid #234333; }
 .copy-status { min-height: 24px; margin: 14px 0; text-align: center; font-size: 12px; color: #99b5a2; }
 .restart-button { display: block; width: 100%; padding: 18px; margin-top: 8px; }
-@media (max-width: 540px) {
-  .result-card { padding: 20px 16px; }
-  .result-art .ship-art { max-width: 290px; }
-  .recommendation-reasons { padding: 17px; }
-}
+
