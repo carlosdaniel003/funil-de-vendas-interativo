@@ -1,8 +1,12 @@
 interface SiteHeaderProps {
-  showProgress: boolean;
+  progress: { step: number; total: number; complete: boolean } | null;
 }
 
-export function SiteHeader({ showProgress }: SiteHeaderProps) {
+export function SiteHeader({ progress }: SiteHeaderProps) {
+  const percentage = progress
+    ? progress.complete ? 100 : Math.round((progress.step / progress.total) * 100)
+    : 0;
+
   return (
     <header className="site-header">
       <div className="header-inner">
@@ -13,9 +17,11 @@ export function SiteHeader({ showProgress }: SiteHeaderProps) {
             <span className="host-status"><span className="status-dot" /> Transmissão ativa</span>
           </span>
         </div>
-        <div className="header-progress" aria-label={showProgress ? 'Introdução do questionário' : 'Aguardando início'}>
-          <span>{showProgress ? 'INÍCIO' : 'PRONTO?'}</span>
-          <span className="progress-track"><span className={showProgress ? 'progress-fill progress-fill--active' : 'progress-fill'} /></span>
+        <div className="header-progress">
+          <span>{progress ? progress.complete ? 'CONCLUÍDO' : 'FASE ' + progress.step + '/' + progress.total : 'PRONTO?'}</span>
+          <span className="progress-track" role="progressbar" aria-label="Progresso do questionário" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percentage}>
+            <span className="progress-fill" style={{ width: percentage + '%' }} />
+          </span>
         </div>
       </div>
     </header>
