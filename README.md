@@ -19,6 +19,7 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Trilha espacial original sintetizada com Web Audio, com controle fixo de nota musical para desligar **todos os sons**; o botão fica translúcido quando silenciado.
 - Efeitos exclusivos de clique, seleção, transição, texto digitado, varredura, carregamento, erro, comemoração e revelação.
 - Vercel Web Analytics integrado para estatísticas de visitantes e visualizações de página, condicionado à habilitação no painel.
+- Prévia de compartilhamento no WhatsApp/Facebook com imagem 1200 × 630, título e descrição (Open Graph e Twitter Cards).
 
 ## Privacidade e limite da simulação
 
@@ -130,3 +131,11 @@ Os efeitos são CSS/React locais, sem bibliotecas de animação nem chamadas ext
 - Digitação produz bipes espaçados (limitados para não sobrecarregar a trilha). Carregamento emite pulsos de varredura e um breve aviso sonoro de conclusão antes dos confetes; comemoração e revelação têm assinaturas sonoras diferentes.
 - A música permanece no fluxo completo; não reinicia a cada pergunta. Efeitos sonoros param imediatamente quando o usuário silencia.
 - Teclado, toque e mouse são suportados; a liberação de áudio ocorre na primeira interação permitida.
+
+## Prévia de compartilhamento (WhatsApp, Facebook e X)
+
+O `index.html` fornece metadados Open Graph e Twitter Card **estáticos no HTML**. A imagem absoluta é `https://funil-de-vendas-interativo.vercel.app/og-preview.png`, compatível com bots que não executam JavaScript.
+
+A arte original está em `public/og-preview.svg`. O comando `npm run build` executa `scripts/generate-og.mjs` para rasterizá-la em `public/og-preview.png` com Sharp, antes da compilação Vite. Assim, o arquivo PNG é publicado na Vercel dentro da pasta `dist`.
+
+Para confirmar, abra a imagem diretamente no domínio de produção e compartilhe `https://funil-de-vendas-interativo.vercel.app/` no WhatsApp. Se uma prévia antiga persistir, pode ser cache do WhatsApp; compartilhar uma URL com um parâmetro inofensivo ou aguardar a atualização do cache pode ajudar.
