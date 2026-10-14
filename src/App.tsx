@@ -80,7 +80,7 @@ export function App() {
       </main>
       <MusicToggle />
       <footer className="site-footer">
-        Experimento de interface · Projeto fictício para estudo
+        Desenvolvido por Carlos Daniel - Experimento de Interface
       </footer>
     </div>
   );
