@@ -18,10 +18,11 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Perfil ilustrado quadrado da personagem **NOVA**, sem texto de status; transição temática entre perguntas.
 - Trilha espacial original sintetizada com Web Audio, com controle fixo de nota musical para desligar **todos os sons**; o botão fica translúcido quando silenciado.
 - Efeitos exclusivos de clique, seleção, transição, texto digitado, varredura, carregamento, erro, comemoração e revelação.
+- Vercel Web Analytics integrado para estatísticas de visitantes e visualizações de página, condicionado à habilitação no painel.
 
 ## Privacidade e limite da simulação
 
-Não existe backend ou integração com WhatsApp. Os dados não são enviados para nenhum endpoint, analytics ou armazenamento local. O telefone informado é **validado e descartado** na transição do formulário; somente o primeiro nome permanece temporariamente no estado React, até reiniciar ou fechar a página.
+Não existe backend nem integração com WhatsApp. **O Vercel Web Analytics coleta métricas de visita e visualização de página quando habilitado no projeto Vercel**, mas o aplicativo não envia nomes, telefones ou respostas do quiz para esse serviço. O formulário não usa armazenamento local nem envia seus campos a servidores. O telefone informado é **validado e descartado** na transição do formulário; somente o primeiro nome permanece temporariamente no estado React, até reiniciar ou fechar a página.
 
 Use dados **fictícios** ao testar o formulário. O botão de copiar gera um relatório local sem telefone. Todas as naves e suas características são inventadas.
 
@@ -51,11 +52,21 @@ npm run preview
 
 Essas opções também estão presentes em `vercel.json`. Nenhuma variável de ambiente é necessária.
 
+### Habilitar Web Analytics
+
+1. No painel do projeto na Vercel, acesse **Analytics** e clique em **Enable** se ainda não estiver habilitado.
+2. Depois de habilitar, gere um novo deploy de produção, caso a Vercel não tenha configurado as rotas de insights no deploy atual.
+3. A aplicação já carrega `@vercel/analytics/react` em `src/main.tsx`; o script coleta apenas page views por padrão. Nenhum evento personalizado foi criado.
+4. Visite o site publicado e confira o painel Analytics. Se necessário, observe no DevTools uma requisição de visualização do Analytics, normalmente sob `/_vercel/insights/` ou um caminho exclusivo configurado pela Vercel.
+
+A habilitação do recurso no painel é uma configuração da conta Vercel e não é realizada apenas ao alterar o repositório GitHub.
+
 ## Organização
 
 ```text
 src/
   App.tsx                          # Orquestra as telas e o estado do fluxo
+  main.tsx                         # Inicializa React e Vercel Web Analytics
   components/
     SiteHeader.tsx                 # Retrato da Nova e progresso
     TypewriterText.tsx             # Digitação progressiva das reações
