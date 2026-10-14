@@ -127,6 +127,6 @@ Os efeitos são CSS/React locais, sem bibliotecas de animação nem chamadas ext
 - O botão de nota musical fica no canto inferior direito. Somente tocar nele desliga música e efeitos; ao desativar, fica quase transparente. Outro toque reativa.
 - Trilha e efeitos são sintetizados por uma única instância de Web Audio; não há downloads de áudio, bibliotecas, dados pessoais nem integração externa.
 - Botões comuns emitem um clique; alternativas têm som de confirmação; transições e mensagens digitadas têm efeitos próprios.
-- Digitação produz bipes espaçados (limitados para não sobrecarregar a trilha). Carregamento emite pulsos de varredura; comemoração e revelação têm assinaturas sonoras diferentes.
+- Digitação produz bipes espaçados (limitados para não sobrecarregar a trilha). Carregamento emite pulsos de varredura e um breve aviso sonoro de conclusão antes dos confetes; comemoração e revelação têm assinaturas sonoras diferentes.
 - A música permanece no fluxo completo; não reinicia a cada pergunta. Efeitos sonoros param imediatamente quando o usuário silencia.
 - Teclado, toque e mouse são suportados; a liberação de áudio ocorre na primeira interação permitida.

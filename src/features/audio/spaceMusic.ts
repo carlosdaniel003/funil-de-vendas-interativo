@@ -15,7 +15,7 @@ const ARPEGGIO: readonly (number | null)[] = [0, null, 2, 1, null, 3, 2, null];
 
 export type SoundEffect =
   | 'click' | 'select' | 'typing' | 'transition'
-  | 'loading' | 'scan' | 'celebrate' | 'reveal'
+  | 'loading' | 'scan' | 'loading-complete' | 'celebrate' | 'reveal'
   | 'error' | 'power';
 
 const frequency = (note: number) => 440 * 2 ** ((note - 69) / 12);
@@ -203,6 +203,11 @@ export class SpaceMusicEngine {
         break;
       case 'scan':
         this.tone(480, 725, time, 0.13, 0.055);
+        break;
+      case 'loading-complete':
+        // Duas notas ascendentes indicam que a análise foi concluída.
+        this.tone(620, 850, time, 0.17, 0.12, 'triangle');
+        this.tone(830, 1180, time + 0.15, 0.23, 0.14);
         break;
       case 'celebrate':
         [523, 659, 784, 1046].forEach((hz, i) => {

@@ -6,6 +6,7 @@ interface LoadingScreenProps {
 }
 
 const LOADING_TIME_MS = 1900;
+const COMPLETION_CUE_ADVANCE_MS = 460;
 
 export function LoadingScreen({ onFinish }: LoadingScreenProps) {
   const { play } = useSound();
@@ -13,8 +14,15 @@ export function LoadingScreen({ onFinish }: LoadingScreenProps) {
   useEffect(() => {
     play('loading');
     const scanner = window.setInterval(() => play('scan'), 520);
+    const completionCue = window.setTimeout(() => {
+      // Para a varredura e toca a confirmação antes de iniciar os confetes.
+      window.clearInterval(scanner);
+      play('loading-complete');
+    }, LOADING_TIME_MS - COMPLETION_CUE_ADVANCE_MS);
     const timer = window.setTimeout(onFinish, LOADING_TIME_MS);
+
     return () => {
+      window.clearTimeout(completionCue);
       window.clearTimeout(timer);
       window.clearInterval(scanner);
     };
