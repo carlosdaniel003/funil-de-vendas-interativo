@@ -1,38 +1,34 @@
 /**
- * Trilha espacial original sintetizada pelo navegador, sem áudio externo.
- * A melodia e os acordes se repetem enquanto a experiência está aberta.
+ * Trilha e efeitos espaciais sintetizados localmente pela Web Audio API.
+ * Sem arquivos externos, dependências ou requisições de rede.
  */
-const TEMPO = 86;
-const STEP_DURATION = 60 / TEMPO / 2;
+const BPM = 86;
+const STEP = 60 / BPM / 2;
 const STEPS_PER_BAR = 8;
-const SCHEDULE_AHEAD_SECONDS = 0.42;
-const SCHEDULER_INTERVAL_MS = 110;
+const CHORDS = [
+  { pad: [57, 60, 64], lead: [69, 72, 76, 81], bass: 45 },
+  { pad: [53, 57, 60], lead: [65, 69, 72, 77], bass: 41 },
+  { pad: [48, 52, 55], lead: [67, 72, 76, 79], bass: 36 },
+  { pad: [55, 59, 62], lead: [67, 71, 74, 79], bass: 43 },
+] as const;
+const ARPEGGIO: readonly (number | null)[] = [0, null, 2, 1, null, 3, 2, null];
 
-interface Chord {
-  pad: readonly number[];
-  arpeggio: readonly number[];
-  bass: number;
-}
+export type SoundEffect =
+  | 'click' | 'select' | 'typing' | 'transition'
+  | 'loading' | 'scan' | 'celebrate' | 'reveal'
+  | 'error' | 'power';
 
-// Progressão Am - F - C - G, em notas MIDI.
-const CHORDS: readonly Chord[] = [
-  { pad: [57, 60, 64], arpeggio: [69, 72, 76, 81], bass: 45 },
-  { pad: [53, 57, 60], arpeggio: [65, 69, 72, 77], bass: 41 },
-  { pad: [48, 52, 55], arpeggio: [67, 72, 76, 79], bass: 36 },
-  { pad: [55, 59, 62], arpeggio: [67, 71, 74, 79], bass: 43 },
-];
-const ARPEGGIO_PATTERN: readonly (number | null)[] = [0, null, 2, 1, null, 3, 2, null];
-
-function midiToFrequency(note: number): number {
-  return 440 * Math.pow(2, (note - 69) / 12);
-}
+const frequency = (note: number) => 440 * 2 ** ((note - 69) / 12);
 
 export class SpaceMusicEngine {
   private context: AudioContext | null = null;
-  private output: GainNode | null = null;
+  private musicBus: GainNode | null = null;
+  private effectsBus: GainNode | null = null;
   private scheduler: number | null = null;
   private step = 0;
   private nextStepTime = 0;
+  private lastTypingTime = -1;
+  private typingIndex = 0;
 
   start(): void {
     if (this.context) {
@@ -46,67 +42,97 @@ export class SpaceMusicEngine {
 
     try {
       const context = new AudioConstructor();
-      this.context = context;
-
       const master = context.createGain();
-      master.gain.value = 0.35;
-      const lowPass = context.createBiquadFilter();
-      lowPass.type = 'lowpass';
-      lowPass.frequency.value = 2600;
-      lowPass.Q.value = 0.5;
-      master.connect(lowPass);
-      lowPass.connect(context.destination);
-      this.output = master;
+      master.gain.value = 0.68;
+      master.connect(context.destination);
 
+      const musicBus = context.createGain();
+      musicBus.gain.value = 0.52;
+      const filter = context.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 2500;
+      musicBus.connect(filter);
+      filter.connect(master);
+
+      const effectsBus = context.createGain();
+      effectsBus.gain.value = 0.72;
+      effectsBus.connect(master);
+
+      this.context = context;
+      this.musicBus = musicBus;
+      this.effectsBus = effectsBus;
       this.step = 0;
-      this.nextStepTime = context.currentTime + 0.08;
-      this.scheduler = window.setInterval(() => this.schedule(), SCHEDULER_INTERVAL_MS);
-      // Tentativa inicial: em muitos celulares a reprodução só é liberada com um gesto.
+      this.nextStepTime = context.currentTime + 0.05;
+      this.scheduler = window.setInterval(() => this.schedule(), 100);
       this.resume();
+      this.schedule();
     } catch {
       this.stop();
     }
   }
 
-  /** Chamado também durante a primeira interação, para desbloquear áudio no celular. */
+  /** Executar diretamente no pointerdown/keydown para liberar áudio no celular. */
   resume(): void {
-    if (!this.context) {
+    const context = this.context;
+    if (!context) {
       this.start();
       return;
     }
-    if (this.context.state !== 'suspended') return;
-    void this.context.resume().catch(() => {
-      // A política de autoplay pode exigir uma interação do visitante.
+    if (context.state !== 'suspended') return;
+
+    // Desbloqueio iOS: cria um oscilador silencioso dentro do próprio gesto.
+    try {
+      const starter = context.createOscillator();
+      const gain = context.createGain();
+      gain.gain.value = 0;
+      starter.connect(gain);
+      gain.connect(context.destination);
+      starter.start();
+      starter.stop(context.currentTime + 0.01);
+      starter.onended = () => {
+        starter.disconnect();
+        gain.disconnect();
+      };
+    } catch {
+      // Alguns navegadores não permitem iniciar um oscilador suspenso.
+    }
+
+    void context.resume().then(() => {
+      // O agendamento começa imediatamente após a permissão ser liberada.
+      if (this.context === context) {
+        this.nextStepTime = context.currentTime + 0.025;
+        this.schedule();
+      }
+    }).catch(() => {
+      // O navegador ainda não autorizou reprodução audível.
     });
   }
 
-  private playNote(
+  private note(
     midi: number,
     time: number,
     duration: number,
     volume: number,
-    type: OscillatorType,
+    wave: OscillatorType,
     attack: number,
     release: number,
   ): void {
     const context = this.context;
-    const output = this.output;
-    if (!context || !output) return;
+    const bus = this.musicBus;
+    if (!context || !bus) return;
 
     const oscillator = context.createOscillator();
     const envelope = context.createGain();
     const end = time + duration;
     const hold = Math.max(time + attack, end - release);
-
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(midiToFrequency(midi), time);
+    oscillator.type = wave;
+    oscillator.frequency.setValueAtTime(frequency(midi), time);
     envelope.gain.setValueAtTime(0.0001, time);
     envelope.gain.linearRampToValueAtTime(volume, time + attack);
-    envelope.gain.setValueAtTime(volume * 0.66, hold);
+    envelope.gain.setValueAtTime(volume * 0.64, hold);
     envelope.gain.exponentialRampToValueAtTime(0.0001, end);
-
     oscillator.connect(envelope);
-    envelope.connect(output);
+    envelope.connect(bus);
     oscillator.start(time);
     oscillator.stop(end + 0.02);
     oscillator.onended = () => {
@@ -115,47 +141,122 @@ export class SpaceMusicEngine {
     };
   }
 
-  private scheduleStep(time: number): void {
+  private tone(
+    startHz: number,
+    endHz: number,
+    at: number,
+    duration: number,
+    level: number,
+    wave: OscillatorType = 'sine',
+  ): void {
+    const context = this.context;
+    const bus = this.effectsBus;
+    if (!context || !bus) return;
+
+    const oscillator = context.createOscillator();
+    const envelope = context.createGain();
+    oscillator.type = wave;
+    oscillator.frequency.setValueAtTime(startHz, at);
+    oscillator.frequency.exponentialRampToValueAtTime(Math.max(30, endHz), at + duration);
+    envelope.gain.setValueAtTime(0.0001, at);
+    envelope.gain.linearRampToValueAtTime(level, at + Math.min(0.02, duration * 0.25));
+    envelope.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+    oscillator.connect(envelope);
+    envelope.connect(bus);
+    oscillator.start(at);
+    oscillator.stop(at + duration + 0.01);
+    oscillator.onended = () => {
+      oscillator.disconnect();
+      envelope.disconnect();
+    };
+  }
+
+  playEffect(effect: SoundEffect): void {
+    const context = this.context;
+    if (!context) return;
+    if (context.state === 'suspended') this.resume();
+    const time = context.currentTime + 0.014;
+
+    switch (effect) {
+      case 'click':
+        this.tone(680, 480, time, 0.085, 0.12);
+        break;
+      case 'select':
+        this.tone(520, 770, time, 0.15, 0.15, 'triangle');
+        this.tone(840, 1050, time + 0.075, 0.10, 0.075);
+        break;
+      case 'typing': {
+        // Limita a densidade de bipes para não encobrir a música.
+        if (time - this.lastTypingTime < 0.075) return;
+        this.lastTypingTime = time;
+        this.typingIndex = (this.typingIndex + 1) % 5;
+        const pitch = 670 + this.typingIndex * 55;
+        this.tone(pitch, pitch * 0.89, time, 0.034, 0.036, 'triangle');
+        break;
+      }
+      case 'transition':
+        this.tone(300, 650, time, 0.31, 0.11);
+        this.tone(440, 810, time + 0.06, 0.26, 0.055);
+        break;
+      case 'loading':
+        this.tone(210, 440, time, 0.38, 0.13);
+        break;
+      case 'scan':
+        this.tone(480, 725, time, 0.13, 0.055);
+        break;
+      case 'celebrate':
+        [523, 659, 784, 1046].forEach((hz, i) => {
+          this.tone(hz, hz * 1.015, time + i * 0.14, 0.45, 0.13);
+        });
+        this.tone(523, 524, time + 0.56, 0.70, 0.07);
+        this.tone(784, 785, time + 0.56, 0.70, 0.07);
+        break;
+      case 'reveal':
+        this.tone(392, 523, time, 0.21, 0.08);
+        this.tone(659, 880, time + 0.13, 0.38, 0.10);
+        break;
+      case 'error':
+        this.tone(240, 170, time, 0.20, 0.13, 'triangle');
+        break;
+      case 'power':
+        this.tone(470, 850, time, 0.22, 0.10);
+        break;
+    }
+  }
+
+  private scheduleStep(at: number): void {
     const bar = Math.floor(this.step / STEPS_PER_BAR) % CHORDS.length;
-    const position = this.step % STEPS_PER_BAR;
+    const index = this.step % STEPS_PER_BAR;
     const chord = CHORDS[bar];
     if (!chord) return;
-
-    if (position === 0) {
-      // Pads longos para um fundo contínuo, com sobreposição entre acordes.
-      for (const note of chord.pad) {
-        this.playNote(note, time, STEP_DURATION * 8.8, 0.043, 'sine', 0.5, 0.85);
+    if (index === 0) {
+      for (const midi of chord.pad) {
+        this.note(midi, at, STEP * 8.8, 0.054, 'sine', 0.45, 0.85);
       }
     }
-    if (position === 0 || position === 4) {
-      this.playNote(chord.bass, time, STEP_DURATION * 3.6, 0.045, 'triangle', 0.09, 0.55);
+    if (index === 0 || index === 4) {
+      this.note(chord.bass, at, STEP * 3.6, 0.049, 'triangle', 0.09, 0.5);
     }
-
-    const arpeggioIndex = ARPEGGIO_PATTERN[position];
-    if (arpeggioIndex !== null && arpeggioIndex !== undefined) {
-      const note = chord.arpeggio[arpeggioIndex];
-      if (note !== undefined) {
-        this.playNote(note, time, STEP_DURATION * 1.65, 0.062, 'sine', 0.018, 0.46);
-      }
+    const lead = ARPEGGIO[index];
+    if (lead != null) {
+      const midi = chord.lead[lead];
+      if (midi !== undefined) this.note(midi, at, STEP * 1.65, 0.068, 'sine', 0.018, 0.43);
     }
-
     this.step = (this.step + 1) % (STEPS_PER_BAR * CHORDS.length);
   }
 
   private schedule(): void {
     const context = this.context;
     if (!context || context.state !== 'running') return;
-
-    // Não empilha várias notas atrasadas após o aplicativo voltar do background.
     if (this.nextStepTime < context.currentTime - 0.2) {
-      this.nextStepTime = context.currentTime + 0.05;
+      this.nextStepTime = context.currentTime + 0.035;
     }
 
-    let scheduled = 0;
-    while (this.nextStepTime < context.currentTime + SCHEDULE_AHEAD_SECONDS && scheduled < 4) {
+    let count = 0;
+    while (this.nextStepTime < context.currentTime + 0.42 && count < 4) {
       this.scheduleStep(this.nextStepTime);
-      this.nextStepTime += STEP_DURATION;
-      scheduled += 1;
+      this.nextStepTime += STEP;
+      count += 1;
     }
   }
 
@@ -164,22 +265,11 @@ export class SpaceMusicEngine {
       window.clearInterval(this.scheduler);
       this.scheduler = null;
     }
-
     const context = this.context;
-    const output = this.output;
     this.context = null;
-    this.output = null;
-    if (!context || context.state === 'closed') return;
-
-    if (context.state === 'running' && output) {
-      const now = context.currentTime;
-      output.gain.cancelScheduledValues(now);
-      output.gain.setValueAtTime(output.gain.value, now);
-      output.gain.linearRampToValueAtTime(0, now + 0.12);
-      window.setTimeout(() => {
-        void context.close().catch(() => {});
-      }, 160);
-    } else {
+    this.musicBus = null;
+    this.effectsBus = null;
+    if (context && context.state !== 'closed') {
       void context.close().catch(() => {});
     }
   }

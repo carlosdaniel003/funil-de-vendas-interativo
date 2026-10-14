@@ -4,6 +4,7 @@ interface TypewriterTextProps {
   text: string;
   animated: boolean;
   onComplete: () => void;
+  onCharacter?: (character: string) => void;
 }
 
 const CHARACTER_INTERVAL_MS = 28;
@@ -13,14 +14,16 @@ const READING_PAUSE_MS = 440;
  * O evento de término depende da quantidade de caracteres revelados,
  * não de um tempo fixo calculado em outro componente.
  */
-export function TypewriterText({ text, animated, onComplete }: TypewriterTextProps) {
+export function TypewriterText({ text, animated, onComplete, onCharacter }: TypewriterTextProps) {
   const characters = Array.from(text);
   const [visibleCount, setVisibleCount] = useState(animated ? 0 : characters.length);
   const onCompleteRef = useRef(onComplete);
+  const onCharacterRef = useRef(onCharacter);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
-  }, [onComplete]);
+    onCharacterRef.current = onCharacter;
+  }, [onComplete, onCharacter]);
 
   useEffect(() => {
     if (!animated) {
@@ -38,6 +41,8 @@ export function TypewriterText({ text, animated, onComplete }: TypewriterTextPro
     const intervalId = window.setInterval(() => {
       revealed += 1;
       setVisibleCount(revealed);
+      const character = characters[revealed - 1];
+      if (character) onCharacterRef.current?.(character);
 
       if (revealed >= characters.length) window.clearInterval(intervalId);
     }, CHARACTER_INTERVAL_MS);

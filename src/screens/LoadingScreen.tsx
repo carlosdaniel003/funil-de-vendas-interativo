@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSound } from '../features/audio/SoundProvider';
 
 interface LoadingScreenProps {
   onFinish: () => void;
@@ -7,10 +8,17 @@ interface LoadingScreenProps {
 const LOADING_TIME_MS = 1900;
 
 export function LoadingScreen({ onFinish }: LoadingScreenProps) {
+  const { play } = useSound();
+
   useEffect(() => {
+    play('loading');
+    const scanner = window.setInterval(() => play('scan'), 520);
     const timer = window.setTimeout(onFinish, LOADING_TIME_MS);
-    return () => window.clearTimeout(timer);
-  }, [onFinish]);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearInterval(scanner);
+    };
+  }, [onFinish, play]);
 
   return (
     <section className="loading-screen" aria-labelledby="loading-title" aria-busy="true">

@@ -16,7 +16,8 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Áreas de toque dimensionadas, suporte às margens seguras do celular, formulários sem zoom automático e retorno ao topo em cada etapa.
 - Estilos responsivos separados em `src/styles/responsive.css`.
 - Perfil ilustrado quadrado da personagem **NOVA**, sem texto de status; transição temática entre perguntas.
-- Trilha musical espacial original sintetizada com Web Audio, com controle de nota musical fixo em todas as telas; ao desligar, o botão fica translúcido.
+- Trilha espacial original sintetizada com Web Audio, com controle fixo de nota musical para desligar **todos os sons**; o botão fica translúcido quando silenciado.
+- Efeitos exclusivos de clique, seleção, transição, texto digitado, varredura, carregamento, erro, comemoração e revelação.
 
 ## Privacidade e limite da simulação
 
@@ -58,12 +59,13 @@ src/
   components/
     SiteHeader.tsx                 # Retrato da Nova e progresso
     TypewriterText.tsx             # Digitação progressiva das reações
-    MusicToggle.tsx                # Controle fixo para ligar/desligar música
+    MusicToggle.tsx                # Controle fixo para ligar/desligar todo o áudio
     RocketIllustration.tsx         # Ilustração da abertura
     ShipIllustration.tsx           # Silhuetas SVG por nave
   features/
     audio/
-      spaceMusic.ts                 # Composição procedural e agendamento Web Audio
+      spaceMusic.ts                 # Motor único: música + efeitos Web Audio
+      SoundProvider.tsx             # Contexto de áudio para todos os componentes
     quiz/
       questions.ts                 # Dados das cinco perguntas
       useQuiz.ts                   # Estado e transições do questionário
@@ -107,10 +109,13 @@ Larguras sugeridas para inspeção no DevTools: **280, 320, 360, 375, 390, 414, 
 
 Os efeitos são CSS/React locais, sem bibliotecas de animação nem chamadas externas. O retrato de Nova é um SVG original do projeto.
 
-## Música ambiente
+## Música ambiente e efeitos de interface
 
-O aplicativo tenta iniciar uma trilha espacial instrumental e original quando a página abre. **Autoplay com som depende das permissões do navegador**: em muitos celulares (Chrome, Safari e outros), a música só começa quando o visitante toca na página, por exemplo ao pressionar "COMEÇAR MISSÃO". O mecanismo tenta desbloquear o áudio nessa primeira interação. Não é possível forçar som antes disso.
-
-O botão de nota musical fica no canto inferior direito durante toda a navegação. Ele inicia ativo; um toque silencia a música imediatamente e torna o ícone quase transparente. Outro toque reinicia a trilha. A configuração vale até recarregar a página e não é gravada no navegador.
-
-A música é composta e sintetizada localmente pela API Web Audio: não há arquivos baixados, bibliotecas adicionais, cookies, armazenamento ou música de terceiros. Osciladores são encerrados ao desligar ou sair da página.
+- O áudio inicia **ativado por padrão**. O navegador tenta reproduzir a música ao carregar a página.
+- **Restrição dos navegadores:** em muitos celulares a música audível só pode começar no primeiro gesto do usuário (toque, clique ou tecla). A aplicação tenta desbloqueá-la já nesse primeiro gesto, sem exigir que o usuário toque na nota musical. Não é tecnicamente possível ignorar uma política de autoplay com som.
+- O botão de nota musical fica no canto inferior direito. Somente tocar nele desliga música e efeitos; ao desativar, fica quase transparente. Outro toque reativa.
+- Trilha e efeitos são sintetizados por uma única instância de Web Audio; não há downloads de áudio, bibliotecas, dados pessoais nem integração externa.
+- Botões comuns emitem um clique; alternativas têm som de confirmação; transições e mensagens digitadas têm efeitos próprios.
+- Digitação produz bipes espaçados (limitados para não sobrecarregar a trilha). Carregamento emite pulsos de varredura; comemoração e revelação têm assinaturas sonoras diferentes.
+- A música permanece no fluxo completo; não reinicia a cada pergunta. Efeitos sonoros param imediatamente quando o usuário silencia.
+- Teclado, toque e mouse são suportados; a liberação de áudio ocorre na primeira interação permitida.

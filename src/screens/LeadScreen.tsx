@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useSound } from '../features/audio/SoundProvider';
 
 interface LeadScreenProps {
   onSubmit: (displayName: string) => void;
@@ -16,6 +17,7 @@ function formatPhone(raw: string): string {
 }
 
 export function LeadScreen({ onSubmit, onBack }: LeadScreenProps) {
+  const { play } = useSound();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
@@ -26,10 +28,12 @@ export function LeadScreen({ onSubmit, onBack }: LeadScreenProps) {
     const digits = phone.replace(/\D/g, '');
 
     if (trimmedName.length < 2) {
+      play('error');
       setError('Informe um nome com pelo menos 2 caracteres.');
       return;
     }
     if (digits.length !== 10 && digits.length !== 11) {
+      play('error');
       setError('Informe um telefone de demonstração com DDD e 10 ou 11 dígitos.');
       return;
     }

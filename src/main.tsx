@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { App } from './App';
+import { SoundProvider } from './features/audio/SoundProvider';
 import './styles/global.css';
 import './styles/responsive.css';
 
@@ -12,6 +13,6 @@ if (!rootElement) {
 
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <App />
+    <SoundProvider><App /></SoundProvider>
   </React.StrictMode>,
 );

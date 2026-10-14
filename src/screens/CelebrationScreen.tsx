@@ -1,4 +1,5 @@
 import { useEffect, type CSSProperties } from 'react';
+import { useSound } from '../features/audio/SoundProvider';
 
 interface CelebrationScreenProps {
   onFinish: () => void;
@@ -19,11 +20,14 @@ const confetti = Array.from({ length: 44 }, (_, index) => ({
 }));
 
 export function CelebrationScreen({ onFinish }: CelebrationScreenProps) {
+  const { play } = useSound();
+
   useEffect(() => {
+    play('celebrate');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const timerId = window.setTimeout(onFinish, prefersReducedMotion ? 500 : CELEBRATION_DURATION_MS);
     return () => window.clearTimeout(timerId);
-  }, [onFinish]);
+  }, [onFinish, play]);
 
   return (
     <section className="celebration-screen" aria-labelledby="celebration-title">

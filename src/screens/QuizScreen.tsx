@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useSound } from '../features/audio/SoundProvider';
 import { TypewriterText } from '../components/TypewriterText';
 import type { QuizSession } from '../features/quiz/useQuiz';
 
@@ -7,7 +9,13 @@ interface QuizScreenProps {
 }
 
 export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
+  const { play } = useSound();
   const { question } = quiz;
+  const questionId = question?.id;
+
+  useEffect(() => {
+    if (questionId) play('transition');
+  }, [questionId, play]);
   if (!question) return null;
 
   const dialogueText = quiz.isReacting && quiz.selectedOption
@@ -16,6 +24,7 @@ export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
 
   function handleOption(optionId: string) {
     if (quiz.isReacting) return;
+    play('select');
     quiz.selectOption(optionId);
     // A fala está acima das alternativas; no celular deve permanecer visível.
     window.scrollTo(0, 0);
@@ -35,6 +44,9 @@ export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
                   text={dialogueText}
                   animated={quiz.isReacting}
                   onComplete={quiz.completeReaction}
+                  onCharacter={(character) => {
+                    if (/[a-zA-ZÀ-ÿ0-9]/.test(character)) play('typing');
+                  }}
                 />
               </span>
               <span className={'dialogue-caret' + (quiz.isReacting ? ' dialogue-caret--typing' : '')} aria-hidden="true" />

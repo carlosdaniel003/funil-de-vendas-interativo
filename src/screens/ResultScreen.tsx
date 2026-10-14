@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSound } from '../features/audio/SoundProvider';
 import { ShipIllustration } from '../components/ShipIllustration';
 import { questions, type QuizAnswers } from '../features/quiz/questions';
 import type { Recommendation } from '../features/recommendation/recommend';
@@ -31,6 +32,11 @@ function createSummary(name: string, recommendation: Recommendation, answers: Qu
 export function ResultScreen({ name, recommendation, answers, onRestart, onHome }: ResultScreenProps) {
   const [copyStatus, setCopyStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const ship = recommendation.ship;
+  const { play } = useSound();
+
+  useEffect(() => {
+    play('reveal');
+  }, [play]);
 
   async function copyReport() {
     try {
