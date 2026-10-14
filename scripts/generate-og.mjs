@@ -2,12 +2,16 @@ import sharp from 'sharp';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-// Gera um PNG real: robôs de WhatsApp/Facebook não precisam suportar SVG nem JS.
-const input = resolve('public', 'og-preview.svg');
-const output = resolve('public', 'og-preview.png');
-const svg = await readFile(input);
-await sharp(svg, { density: 96 })
-  .resize(1200, 630, { fit: 'fill' })
-  .png({ compressionLevel: 9, palette: true })
-  .toFile(output);
-console.log('OG image generated:', output);
+// Entrega PNGs compatíveis com WhatsApp e Twitter, sem depender de SVG no robô.
+const versions = [
+  { svg: 'og-preview.svg', png: 'og-preview.png', width: 1200, height: 630 },
+  { svg: 'og-whatsapp.svg', png: 'og-whatsapp.png', width: 1200, height: 1200 },
+];
+await Promise.all(versions.map(async ({ svg, png, width, height }) => {
+  const input = await readFile(resolve('public', svg));
+  await sharp(input, { density: 96 })
+    .resize(width, height, { fit: 'fill' })
+    .png({ compressionLevel: 9, palette: true })
+    .toFile(resolve('public', png));
+  console.log('OG image generated:', png);
+}));

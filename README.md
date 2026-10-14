@@ -19,7 +19,7 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Trilha espacial original sintetizada com Web Audio, com controle fixo de nota musical para desligar **todos os sons**; o botão fica translúcido quando silenciado.
 - Efeitos exclusivos de clique, seleção, transição, texto digitado, varredura, carregamento, erro, comemoração e revelação.
 - Vercel Web Analytics integrado para estatísticas de visitantes e visualizações de página, condicionado à habilitação no painel.
-- Prévia de compartilhamento no WhatsApp/Facebook com imagem 1200 × 630, título e descrição (Open Graph e Twitter Cards).
+- Prévia de compartilhamento com miniatura quadrada 1200 × 1200 no WhatsApp e arte horizontal 1200 × 630 no Twitter.
 
 ## Privacidade e limite da simulação
 
@@ -134,8 +134,8 @@ Os efeitos são CSS/React locais, sem bibliotecas de animação nem chamadas ext
 
 ## Prévia de compartilhamento (WhatsApp, Facebook e X)
 
-O `index.html` fornece metadados Open Graph e Twitter Card **estáticos no HTML**. A imagem absoluta é `https://funil-de-vendas-interativo.vercel.app/og-preview.png`, compatível com bots que não executam JavaScript.
+O WhatsApp usa uma miniatura compacta quadrada em certas conversas, recortando a imagem horizontal. A imagem Open Graph principal agora é `https://funil-de-vendas-interativo.vercel.app/og-whatsapp.png` (1200 × 1200) com a nave e o título centralizados, para reduzir cortes indesejados. O app controla a forma de exibir o cartão; não há garantia de uma prévia horizontal completa.
 
-A arte original está em `public/og-preview.svg`. O comando `npm run build` executa `scripts/generate-og.mjs` para rasterizá-la em `public/og-preview.png` com Sharp, antes da compilação Vite. Assim, o arquivo PNG é publicado na Vercel dentro da pasta `dist`.
+O PNG quadrado é gerado de `public/og-whatsapp.svg`. A capa horizontal continua como `public/og-preview.svg` e `og-preview.png` para Twitter/X. O build usa Sharp para gerar os dois PNGs antes de compilar o Vite, e os metadados são estáticos no HTML.
 
-Para confirmar, abra a imagem diretamente no domínio de produção e compartilhe `https://funil-de-vendas-interativo.vercel.app/` no WhatsApp. Se uma prévia antiga persistir, pode ser cache do WhatsApp; compartilhar uma URL com um parâmetro inofensivo ou aguardar a atualização do cache pode ajudar.
+Teste a imagem diretamente em `https://funil-de-vendas-interativo.vercel.app/og-whatsapp.png` e depois compartilhe `https://funil-de-vendas-interativo.vercel.app/?preview=2` para contornar um possível cache antigo do WhatsApp.
