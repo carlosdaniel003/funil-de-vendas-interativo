@@ -9,7 +9,7 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Reações contextuais com digitação progressiva; avanço automático **somente após o texto terminar**, navegação para trás e barra de progresso.
 - Formulário de demonstração com validação de nome e telefone fictícios.
 - Tela de carregamento temporizada (1,9 s), seguida de uma comemoração curta com confetes antes do resultado.
-- Recomendação determinística de uma entre quatro naves fictícias, calculada pelas cinco respostas.
+- Recomendação determinística de uma entre **seis naves fictícias**, calculada pelas cinco respostas; cada nave tem silhueta, paleta e características próprias.
 - Resultado com ilustração, características, justificativas e resumo de respostas.
 - Botões para copiar o relatório, refazer o teste e retornar ao início.
 - Layout adaptado a celulares pequenos, médios e grandes, tablets e dispositivos em paisagem.
@@ -105,7 +105,7 @@ src/
 
 ### Como funciona o mecanismo de recomendação
 
-`recommendShip(answers)` valida as cinco respostas e acumula pontos para cada nave. Cada escolha favorece dois modelos, com pontuações diferentes. A nave com maior pontuação é recomendada; em empate, prevalece a ordem estável do catálogo. A mesma combinação de respostas sempre gera a mesma recomendação. A camada visual não contém as regras de pontuação.
+`recommendShip(answers)` valida as cinco respostas e acumula pontos para cada nave. Cada escolha favorece três modelos, com pontuações diferentes. A nave com maior pontuação é recomendada; em empate, prevalece a ordem estável do catálogo. A mesma combinação de respostas sempre gera a mesma recomendação. A camada visual não contém as regras de pontuação.
 
 ## Conferência de responsividade
 
@@ -139,3 +139,9 @@ O WhatsApp usa uma miniatura compacta quadrada em certas conversas, recortando a
 O PNG quadrado é gerado de `public/og-whatsapp.svg`. A capa horizontal continua como `public/og-preview.svg` e `og-preview.png` para Twitter/X. O build usa Sharp para gerar os dois PNGs antes de compilar o Vite, e os metadados são estáticos no HTML.
 
 Teste a imagem diretamente em `https://funil-de-vendas-interativo.vercel.app/og-whatsapp.png` e depois compartilhe `https://funil-de-vendas-interativo.vercel.app/?preview=2` para contornar um possível cache antigo do WhatsApp.
+
+## Seis naves e identidade visual do resultado
+
+Os seis resultados possíveis são: **Aurora ZX** (verde, exploradora delta), **Nebulon Q5** (azul, científica arredondada), **Solaris Prime** (dourada, nave de comando), **Vortex XR** (vermelha, interceptadora), **Atlas Cruiser** (laranja, cargueira blindada) e **Onyx Phantom** (roxa, furtiva em formato de manta). Cada uma possui SVG original, recursos, descrição e perfil próprio.
+
+A pontuação é baseada nas cinco respostas, validada contra todas as alternativas em `questions.ts`. Cada resposta atribui pontos de afinidade a três modelos. O desempate é estável, e nenhum sorteio influencia o resultado. A tela final usa `--ship-accent` e `--ship-shade` para harmonizar o cartão com a nave sem alterar as demais telas.

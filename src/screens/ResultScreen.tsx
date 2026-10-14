@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import { useSound } from '../features/audio/SoundProvider';
 import { ShipIllustration } from '../components/ShipIllustration';
 import { questions, type QuizAnswers } from '../features/quiz/questions';
@@ -48,7 +48,11 @@ export function ResultScreen({ name, recommendation, answers, onRestart, onHome 
   }
 
   return (
-    <section className="quiz-entry result-screen" aria-labelledby="result-title">
+    <section
+      className="quiz-entry result-screen"
+      aria-labelledby="result-title"
+      style={{ '--ship-accent': ship.accent, '--ship-shade': ship.shade } as CSSProperties}
+    >
       <div className="dialogue-section">
         <div className="dialogue-symbol" aria-hidden="true">✦</div>
         <div className="dialogue-box">
