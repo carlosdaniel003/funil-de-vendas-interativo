@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { questions, type QuizAnswers } from './questions';
-
-/** Pausa curta para exibir a reação do personagem antes de avançar. */
-const REACTION_DURATION_MS = 1100;
 
 export function useQuiz() {
   const [stepIndex, setStepIndex] = useState(0);
@@ -14,28 +11,24 @@ export function useQuiz() {
   const selectedOptionId = question ? answers[question.id] ?? null : null;
   const selectedOption = question?.options.find((option) => option.id === selectedOptionId);
 
-  useEffect(() => {
-    if (pendingOptionId === null || isComplete) return;
-
-    const timerId = window.setTimeout(() => {
-      if (stepIndex === questions.length - 1) {
-        setIsComplete(true);
-      } else {
-        setStepIndex((current) => current + 1);
-      }
-      setPendingOptionId(null);
-    }, REACTION_DURATION_MS);
-
-    // Navegar para trás ou reiniciar cancela o avanço automático pendente.
-    return () => window.clearTimeout(timerId);
-  }, [pendingOptionId, stepIndex, isComplete]);
-
   function selectOption(optionId: string) {
     if (!question || isComplete || pendingOptionId !== null) return;
     if (!question.options.some((option) => option.id === optionId)) return;
 
     setAnswers((current) => ({ ...current, [question.id]: optionId }));
     setPendingOptionId(optionId);
+  }
+
+  /** Avança apenas depois que a digitação da reação terminar. */
+  function completeReaction() {
+    if (pendingOptionId === null || isComplete) return;
+
+    if (stepIndex === questions.length - 1) {
+      setIsComplete(true);
+    } else {
+      setStepIndex((current) => Math.min(current + 1, questions.length - 1));
+    }
+    setPendingOptionId(null);
   }
 
   function goBack() {
@@ -64,6 +57,7 @@ export function useQuiz() {
     isReacting: pendingOptionId !== null,
     isComplete,
     selectOption,
+    completeReaction,
     goBack,
     reset,
   };

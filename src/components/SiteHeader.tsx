@@ -11,10 +11,9 @@ export function SiteHeader({ progress }: SiteHeaderProps) {
     <header className="site-header">
       <div className="header-inner">
         <div className="host-information">
-          <span aria-hidden="true" className="host-avatar">✦</span>
+          <img className="host-avatar" src="/nova-avatar.svg" alt="Retrato ilustrado de Nova" width="44" height="44" />
           <span className="host-copy">
-            <strong>COMANDANTE NOVA</strong>
-            <span className="host-status"><span className="status-dot" /> Transmissão ativa</span>
+            <strong>NOVA</strong>
           </span>
         </div>
         <div className="header-progress">

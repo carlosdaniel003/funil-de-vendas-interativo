@@ -46,7 +46,7 @@ export function ResultScreen({ name, recommendation, answers, onRestart, onHome 
       <div className="dialogue-section">
         <div className="dialogue-symbol" aria-hidden="true">✦</div>
         <div className="dialogue-box">
-          <span className="dialogue-speaker">COMANDANTE NOVA</span>
+          <span className="dialogue-speaker">NOVA</span>
           <p>Missão analisada, {name}! Encontrei uma nave compatível com as suas coordenadas.</p>
         </div>
       </div>

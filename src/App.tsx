@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SiteHeader } from './components/SiteHeader';
+import { CelebrationScreen } from './screens/CelebrationScreen';
 import { recommendShip } from './features/recommendation/recommend';
 import { useQuiz } from './features/quiz/useQuiz';
 import { HomeScreen } from './screens/HomeScreen';
@@ -8,7 +9,7 @@ import { LoadingScreen } from './screens/LoadingScreen';
 import { QuizScreen } from './screens/QuizScreen';
 import { ResultScreen } from './screens/ResultScreen';
 
-type View = 'home' | 'quiz' | 'loading' | 'result';
+type View = 'home' | 'quiz' | 'loading' | 'celebration' | 'result';
 
 export function App() {
   const [view, setView] = useState<View>('home');
@@ -33,7 +34,8 @@ export function App() {
     setView('loading');
   }
 
-  const finishLoading = useCallback(() => setView('result'), []);
+  const finishLoading = useCallback(() => setView('celebration'), []);
+  const finishCelebration = useCallback(() => setView('result'), []);
 
   // Reposiciona a página e o foco ao entrar em outra fase, inclusive no celular.
   useLayoutEffect(() => {
@@ -44,7 +46,7 @@ export function App() {
     step: quiz.stepIndex + 1,
     total: quiz.totalSteps,
     complete: quiz.isComplete,
-    label: view === 'loading' ? 'ANALISANDO' : view === 'result' ? 'PRONTO' : quiz.isComplete ? 'QUASE LÁ' : undefined,
+    label: view === 'loading' ? 'ANALISANDO' : view === 'celebration' ? 'ENCONTRADA' : view === 'result' ? 'PRONTO' : quiz.isComplete ? 'QUASE LÁ' : undefined,
   };
 
   return (
@@ -64,6 +66,7 @@ export function App() {
           </section>
         )}
         {view === 'loading' && <LoadingScreen onFinish={finishLoading} />}
+        {view === 'celebration' && <CelebrationScreen onFinish={finishCelebration} />}
         {view === 'result' && recommendation && (
           <ResultScreen
             name={captainName}

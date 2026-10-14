@@ -44,7 +44,7 @@ export function LeadScreen({ onSubmit, onBack }: LeadScreenProps) {
       <div className="dialogue-section">
         <div className="dialogue-symbol" aria-hidden="true">✦</div>
         <div className="dialogue-box">
-          <span className="dialogue-speaker">COMANDANTE NOVA</span>
+          <span className="dialogue-speaker">NOVA</span>
           <p>Já tenho suas coordenadas! Só preciso identificar o capitão para liberar a recomendação.</p>
         </div>
       </div>

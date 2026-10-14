@@ -243,7 +243,6 @@ body {
     width: 38px;
     height: 38px;
     flex-basis: 38px;
-    font-size: 23px;
   }
 
   .host-copy {
@@ -253,10 +252,6 @@ body {
   .host-copy strong {
     font-size: 11px;
     letter-spacing: 0.035em;
-  }
-
-  .host-status {
-    font-size: 10px;
   }
 
   .header-progress {
@@ -555,32 +550,12 @@ body {
 }
 
 @media (max-width: 420px) {
-  /* O progresso ganha a sua própria linha quando o cabeçalho fica apertado. */
-  .header-inner {
-    flex-wrap: wrap;
-    row-gap: 9px;
-  }
-
-  .host-information {
-    width: 100%;
-  }
-
-  .header-progress {
-    width: 100%;
-    padding-top: 9px;
-    border-top: 1px solid #1b3526;
-    justify-content: space-between;
-  }
-
-  .progress-track {
-    width: min(66%, 230px);
-    flex: 1;
-    max-width: 230px;
-  }
-
-  .hero-title {
-    font-size: clamp(31px, 9.1vw, 39px);
-  }
+  /* Avatar e progresso lado a lado mesmo nos aparelhos estreitos. */
+  .header-inner { flex-wrap: nowrap; row-gap: 0; }
+  .host-information { width: auto; }
+  .header-progress { width: auto; padding-top: 0; border-top: 0; justify-content: flex-end; }
+  .progress-track { width: clamp(40px, 11vw, 65px); flex: 0 0 auto; }
+  .hero-title { font-size: clamp(31px, 9.1vw, 39px); }
 }
 
 @media (max-width: 350px) {
@@ -726,4 +701,13 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+@media (max-width: 540px) {
+  .celebration-screen {
+    min-height: min(70dvh, 500px);
+    padding-inline: var(--mobile-gutter);
+  }
+  .celebration-core h1 { font-size: clamp(28px, 7.5vw, 38px); }
+  .confetti-piece { width: 7px; height: 11px; }
 }
