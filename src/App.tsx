@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SiteHeader } from './components/SiteHeader';
+import { MusicToggle } from './components/MusicToggle';
 import { CelebrationScreen } from './screens/CelebrationScreen';
 import { recommendShip } from './features/recommendation/recommend';
 import { useQuiz } from './features/quiz/useQuiz';
@@ -77,6 +78,7 @@ export function App() {
           />
         )}
       </main>
+      <MusicToggle />
       <footer className="site-footer">
         Experimento de interface · Projeto fictício para estudo
       </footer>

@@ -16,6 +16,7 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Áreas de toque dimensionadas, suporte às margens seguras do celular, formulários sem zoom automático e retorno ao topo em cada etapa.
 - Estilos responsivos separados em `src/styles/responsive.css`.
 - Perfil ilustrado quadrado da personagem **NOVA**, sem texto de status; transição temática entre perguntas.
+- Trilha musical espacial original sintetizada com Web Audio, com controle de nota musical fixo em todas as telas; ao desligar, o botão fica translúcido.
 
 ## Privacidade e limite da simulação
 
@@ -57,9 +58,12 @@ src/
   components/
     SiteHeader.tsx                 # Retrato da Nova e progresso
     TypewriterText.tsx             # Digitação progressiva das reações
+    MusicToggle.tsx                # Controle fixo para ligar/desligar música
     RocketIllustration.tsx         # Ilustração da abertura
     ShipIllustration.tsx           # Silhuetas SVG por nave
   features/
+    audio/
+      spaceMusic.ts                 # Composição procedural e agendamento Web Audio
     quiz/
       questions.ts                 # Dados das cinco perguntas
       useQuiz.ts                   # Estado e transições do questionário
@@ -102,3 +106,11 @@ Larguras sugeridas para inspeção no DevTools: **280, 320, 360, 375, 390, 414, 
 5. Em dispositivos com **reduzir movimento** ativado, o texto surge de uma só vez e as animações decorativas são removidas.
 
 Os efeitos são CSS/React locais, sem bibliotecas de animação nem chamadas externas. O retrato de Nova é um SVG original do projeto.
+
+## Música ambiente
+
+O aplicativo tenta iniciar uma trilha espacial instrumental e original quando a página abre. **Autoplay com som depende das permissões do navegador**: em muitos celulares (Chrome, Safari e outros), a música só começa quando o visitante toca na página, por exemplo ao pressionar "COMEÇAR MISSÃO". O mecanismo tenta desbloquear o áudio nessa primeira interação. Não é possível forçar som antes disso.
+
+O botão de nota musical fica no canto inferior direito durante toda a navegação. Ele inicia ativo; um toque silencia a música imediatamente e torna o ícone quase transparente. Outro toque reinicia a trilha. A configuração vale até recarregar a página e não é gravada no navegador.
+
+A música é composta e sintetizada localmente pela API Web Audio: não há arquivos baixados, bibliotecas adicionais, cookies, armazenamento ou música de terceiros. Osciladores são encerrados ao desligar ou sair da página.

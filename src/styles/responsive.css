@@ -711,3 +711,22 @@ body {
   .celebration-core h1 { font-size: clamp(28px, 7.5vw, 38px); }
   .confetti-piece { width: 7px; height: 11px; }
 }
+
+
+/* Botão de música visível sem ultrapassar as margens seguras do celular. */
+@media (max-width: 540px) {
+  .music-toggle {
+    width: 48px;
+    height: 48px;
+    right: max(13px, env(safe-area-inset-right, 0px));
+    bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .music-toggle {
+    width: 44px;
+    height: 44px;
+    right: max(10px, env(safe-area-inset-right, 0px));
+    bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  }
+}
