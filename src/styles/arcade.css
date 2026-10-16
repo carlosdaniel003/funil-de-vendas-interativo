@@ -42,13 +42,10 @@
   position: relative;
   z-index: 1;
 }
+/* O SVG já posiciona a órbita com transform="translate(1125 220)".
+   Evita sobrescrever esse atributo com transform CSS em outros navegadores. */
 .arcade-backdrop__orbit {
-  transform-origin: 1125px 220px;
-  animation: arcade-background-drift 32s ease-in-out infinite alternate;
-}
-@keyframes arcade-background-drift {
-  from { transform: translate(0, 0); }
-  to { transform: translate(-24px, 18px); }
+  opacity: 1;
 }
 
 /* O painel de bordo continua minimalista e o progresso mantém a semântica. */
