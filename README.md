@@ -161,7 +161,7 @@ Arquivos relevantes: `src/styles/arcade.css`, `src/components/ArcadeBackdrop.tsx
 
 ## Refinamento da abertura e da comandante Nova
 
-A identidade Sci-Fi Vector Arcade ganhou uma personagem vetorial mais detalhada, com headset, visor transparente, uniforme de bordo e elementos de HUD. **O arquivo `public/nova-avatar.svg` é a única fonte do retrato.** O componente `src/components/NovaPortrait.tsx` o reutiliza em escalas adaptativas no cabeçalho, na mensagem inicial e nos diálogos de pergunta, identificação e resultado.
+A identidade Sci-Fi Vector Arcade ganhou uma personagem vetorial mais detalhada, com **olhos abertos, íris, pupilas e reflexos**, headset, visor transparente, uniforme de bordo e elementos de HUD. A URL versionada do SVG evita que a imagem antiga permaneça em cache no navegador. **O arquivo `public/nova-avatar.svg` é a única fonte do retrato.** O componente `src/components/NovaPortrait.tsx` o reutiliza em escalas adaptativas no cabeçalho, na mensagem inicial e nos diálogos de pergunta, identificação e resultado.
 
 A tela inicial foi posteriormente **simplificada**: permanecem apenas título, uma frase curta, foguete e botão COMEÇAR MISSÃO, enquanto o retrato da Nova continua no cabeçalho e nas demais etapas. Foram removidos o cartão de boas-vindas, faixas promocionais, indicadores e legendas decorativas da abertura. O título usa cores sólidas, sem sombras deslocadas, evitando sobreposição visual. Não foram alterados formulário, recomendações, perguntas, áudios ou dados enviados.
 

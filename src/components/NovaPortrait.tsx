@@ -1,4 +1,4 @@
-export const NOVA_PORTRAIT_SRC = '/nova-avatar.svg' as const;
+export const NOVA_PORTRAIT_SRC = '/nova-avatar.svg?v=2' as const;
 
 interface NovaPortraitProps {
   variant?: 'header' | 'intro' | 'dialogue';
