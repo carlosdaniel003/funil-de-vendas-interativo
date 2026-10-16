@@ -1,10 +1,118 @@
-/* Inicio mobile em uma unica tela — apenas quando a home esta ativa.
- * Usa o viewport dinamico (a area realmente visivel, descontando as barras).
- * Em alturas impossiveis ou com ampliacao de texto, permite rolar em vez de cortar.
- */
+/* Home minimalista: somente titulo, frase curta, foguete e CTA.
+   Regras limitadas a home para preservar quiz, formulario e resultados. */
+
+.app-shell--home .main-content {
+  align-items: stretch;
+}
+
+.app-shell--home .home-screen {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(120px, 1fr) auto;
+  align-items: center;
+  gap: clamp(12px, 2.1vh, 24px);
+  width: min(100%, 720px);
+  min-height: 0;
+  margin-inline: auto;
+  padding: clamp(23px, 5vh, 48px) clamp(20px, 4vw, 34px);
+}
+
+.app-shell--home .home-screen .hero-title {
+  max-width: 680px;
+  margin: 0;
+  color: #f2fff5;
+  font-size: clamp(30px, 5.5vw, 57px);
+  font-weight: 900;
+  letter-spacing: -.055em;
+  line-height: 1.13;
+  text-shadow: none; /* elimina a duplicacao/sombra desalinhada */
+  -webkit-text-stroke: 0;
+  filter: none;
+  text-wrap: balance;
+}
+
+.app-shell--home .home-screen .hero-title span {
+  display: block;
+  color: #a8f782;
+  -webkit-text-fill-color: #a8f782;
+  background: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  text-shadow: none;
+  filter: none;
+}
+
+.app-shell--home .home-screen .hero-description {
+  max-width: 520px;
+  margin: 0 auto;
+  color: #acc8b6;
+  font-size: clamp(13px, 2.5vw, 17px);
+  line-height: 1.5;
+}
+
+.app-shell--home .home-screen .rocket-stage {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 460px;
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.app-shell--home .home-screen .rocket-illustration {
+  display: block;
+  width: auto;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  flex-shrink: 1;
+  object-fit: contain;
+}
+
+.app-shell--home .home-screen .rocket-stage::before {
+  width: auto;
+  height: min(97%, 340px);
+  aspect-ratio: 1;
+  border-color: rgba(104, 243, 172, .15);
+  box-shadow: none;
+}
+
+.app-shell--home .home-screen .rocket-stage::after {
+  opacity: .3;
+}
+
+.app-shell--home .home-screen .home-launch {
+  width: 100%;
+  max-width: 610px;
+  margin: 0 auto;
+}
+
+/* O botao e a nave concentram a atencao. */
+.app-shell--home .home-screen .home-launch::before,
+.app-shell--home .home-screen .home-launch::after {
+  content: none;
+}
+
+.app-shell--home .home-screen .primary-button {
+  min-height: 58px;
+  padding: 15px 16px;
+  font-size: clamp(17px, 3.1vw, 22px);
+  line-height: 1.25;
+}
+
+/* Menos efeitos de fundo exclusivamente na entrada. */
+.app-shell--home .arcade-backdrop > svg {
+  opacity: .32;
+}
+
+/* Celulares em retrato: o foguete cresce/encolhe no espaco restante.
+   Mantemos overflow natural quando a tela ou o texto forem muito pequenos. */
 @media (max-width: 600px) and (orientation: portrait) {
   .app-shell--home {
-    height: 100vh; /* fallback */
+    height: 100vh;
     height: 100svh;
     height: 100dvh;
     min-height: 0;
@@ -16,7 +124,7 @@
   }
 
   .app-shell--home .header-inner {
-    padding-block: clamp(6px, 1.3dvh, 11px);
+    padding-block: clamp(6px, 1.2dvh, 11px);
   }
 
   .app-shell--home .nova-portrait--header {
@@ -30,182 +138,84 @@
   }
 
   .app-shell--home .home-screen {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto auto minmax(62px, 1fr) auto auto auto;
-    gap: clamp(3px, .7dvh, 8px);
-    align-content: stretch;
-    min-height: 0;
+    grid-template-rows: auto auto minmax(70px, 1fr) auto;
     height: 100%;
+    min-height: 0;
     width: min(100%, 500px);
-    padding: clamp(5px, 1dvh, 10px) var(--mobile-gutter) clamp(3px, .6dvh, 7px);
-    margin-inline: auto;
-  }
-
-  .app-shell--home .home-screen .eyebrow {
-    justify-self: center;
-    margin: 0;
-    padding: 5px 13px;
-    font-size: clamp(8px, 2.3vw, 10px);
-    line-height: 1.3;
-    letter-spacing: .025em;
-    box-shadow: 2px 3px 0 rgba(26, 80, 42, .7);
+    gap: clamp(7px, 1.3dvh, 14px);
+    padding: clamp(12px, 2.4dvh, 24px) var(--mobile-gutter) clamp(10px, 2dvh, 18px);
   }
 
   .app-shell--home .home-screen .hero-title {
-    margin: 0;
-    font-size: clamp(21px, 7.8vw, 33px);
-    line-height: 1.06;
-    letter-spacing: -.055em;
-    text-wrap: balance;
+    font-size: clamp(27px, 8.6vw, 43px);
+    line-height: 1.09;
   }
 
   .app-shell--home .home-screen .hero-description {
-    margin: 0 auto;
-    max-width: 440px;
-    font-size: clamp(11px, 3vw, 14px);
-    line-height: 1.35;
+    font-size: clamp(12px, 3.15vw, 14px);
+    line-height: 1.4;
   }
 
-  .app-shell--home .home-screen .hero-tags {
-    justify-self: center;
-    margin: 0;
-    gap: 5px;
-  }
-
-  .app-shell--home .home-screen .hero-tags span {
-    padding: 4px 7px;
-    font-size: clamp(9px, 2.35vw, 11px);
-    line-height: 1.2;
-  }
-
-  /* O foguete se adapta ao espaco livre; nunca reserva os antigos 260px. */
   .app-shell--home .home-screen .rocket-stage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-    max-width: 440px;
-    height: 100%;
-    min-height: 0;
-    margin: 0 auto;
-  }
-
-  .app-shell--home .home-screen .rocket-illustration {
-    display: block;
-    width: auto;
-    max-width: 100%;
-    height: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    flex: none;
+    max-width: 370px;
   }
 
   .app-shell--home .home-screen .rocket-stage::before {
-    width: auto;
     height: min(96%, 310px);
-    aspect-ratio: 1;
-  }
-
-  .app-shell--home .home-screen .rocket-stage::after {
-    bottom: 0;
-  }
-
-  .app-shell--home .home-screen .rocket-hud-caption {
-    top: 2px;
-    font-size: clamp(7px, 1.9vw, 9px);
-  }
-
-  .app-shell--home .home-screen .nova-intro {
-    grid-template-columns: clamp(58px, 17vw, 82px) minmax(0, 1fr);
-    justify-items: stretch;
-    gap: clamp(8px, 2.4vw, 14px);
-    padding: clamp(9px, 1.8vw, 12px);
-    margin: 0;
-  }
-
-  .app-shell--home .home-screen .nova-portrait--intro {
-    width: 100%;
-    max-width: 82px;
-  }
-
-  .app-shell--home .home-screen .nova-intro__heading {
-    margin-bottom: 3px;
-    gap: 4px;
-  }
-
-  .app-shell--home .home-screen .nova-intro__heading strong {
-    font-size: clamp(13px, 3.5vw, 16px);
-  }
-
-  .app-shell--home .home-screen .nova-intro__message p {
-    font-size: clamp(11px, 2.95vw, 13px);
-    line-height: 1.34;
-  }
-
-  .app-shell--home .home-screen .nova-intro__transmission {
-    margin-top: 5px;
-    padding-top: 4px;
-    font-size: 8px;
-  }
-
-  .app-shell--home .home-screen .home-launch {
-    margin: 0;
   }
 
   .app-shell--home .home-screen .primary-button {
-    min-height: 48px;
-    padding: 10px 12px;
-    font-size: clamp(15px, 4vw, 19px);
-    line-height: 1.2;
-  }
-
-  .app-shell--home .home-screen .support-text {
-    margin: 0;
-    font-size: clamp(9px, 2.35vw, 11px);
-    line-height: 1.2;
+    min-height: 52px;
+    padding: 12px 11px;
+    font-size: clamp(15px, 4.5vw, 19px);
   }
 
   .app-shell--home .site-footer {
     padding: 6px 67px 6px 14px;
     padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
     font-size: 9px;
-    line-height: 1.2;
+    line-height: 1.25;
+  }
+
+  .app-shell--home .arcade-backdrop > svg {
+    opacity: .22;
   }
 }
 
-/* Celulares com menos altura: preservar acao principal e retirar enfeites
- * secundarios, sem esconder o titulo, o retrato ou o botao. */
-@media (max-width: 600px) and (orientation: portrait) and (max-height: 700px) {
+/* Menor altura: compactar respiros antes de reduzir o desenho do foguete. */
+@media (max-width: 600px) and (orientation: portrait) and (max-height: 650px) {
   .app-shell--home .home-screen {
-    gap: clamp(2px, .45dvh, 5px);
-    grid-template-rows: auto auto auto auto minmax(50px, 1fr) auto auto auto;
+    gap: 6px;
+    grid-template-rows: auto auto minmax(48px, 1fr) auto;
+    padding-block: 8px;
   }
 
-  .app-shell--home .home-screen .hero-title { font-size: clamp(21px, 7.2vw, 31px); }
-  .app-shell--home .home-screen .eyebrow { padding-block: 4px; }
-  .app-shell--home .home-screen .nova-intro__transmission { display: none; }
-  .app-shell--home .home-screen .nova-intro { padding: 8px 10px; }
-  .app-shell--home .home-screen .nova-portrait--intro { max-width: 65px; }
-  .app-shell--home .home-screen .primary-button { padding-block: 8px; }
-}
-
-@media (max-width: 600px) and (orientation: portrait) and (max-height: 590px) {
-  .app-shell--home .home-screen { grid-template-rows: auto auto auto auto minmax(43px, 1fr) auto auto; }
-  .app-shell--home .home-screen .support-text { display: none; }
-  .app-shell--home .home-screen .hero-description { font-size: 11px; }
-  .app-shell--home .home-screen .rocket-hud-caption { display: none; }
-  .app-shell--home .site-footer { padding-block: 4px; }
-}
-
-/* Na faixa excepcionalmente estreita, a foto e a fala continuam lado a lado. */
-@media (max-width: 300px) and (orientation: portrait) {
-  .app-shell--home .home-screen .nova-intro {
-    grid-template-columns: 51px minmax(0, 1fr);
-    justify-items: stretch;
+  .app-shell--home .home-screen .hero-title {
+    font-size: clamp(25px, 7.8vw, 36px);
   }
-  .app-shell--home .home-screen .nova-portrait--intro { max-width: 51px; }
-  .app-shell--home .home-screen .nova-intro__message { text-align: left; }
-  .app-shell--home .home-screen .nova-intro__transmission { justify-content: flex-start; }
+
+  .app-shell--home .home-screen .primary-button {
+    min-height: 48px;
+    padding-block: 9px;
+  }
+
+  .app-shell--home .site-footer {
+    padding-block: 4px;
+  }
+}
+
+/* Orientacao horizontal curta: foguete continua sendo o elemento flexivel. */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+  .app-shell--home .home-screen {
+    grid-template-rows: auto auto minmax(46px, 1fr) auto;
+    gap: 6px;
+    padding-block: 6px;
+  }
+  .app-shell--home .home-screen .hero-title {
+    font-size: clamp(23px, 4.2vw, 35px);
+  }
+  .app-shell--home .home-screen .primary-button {
+    min-height: 44px;
+    padding-block: 8px;
+  }
 }
