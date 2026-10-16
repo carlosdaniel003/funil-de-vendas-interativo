@@ -1,5 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
-import { HudGlyph } from '../components/HudGlyph';
+import { NovaPortrait } from '../components/NovaPortrait';
 import { useSound } from '../features/audio/SoundProvider';
 import { ShipIllustration } from '../components/ShipIllustration';
 import { questions, type QuizAnswers } from '../features/quiz/questions';
@@ -55,7 +55,7 @@ export function ResultScreen({ name, recommendation, answers, onRestart, onHome 
       style={{ '--ship-accent': ship.accent, '--ship-shade': ship.shade } as CSSProperties}
     >
       <div className="dialogue-section">
-        <div className="dialogue-symbol" aria-hidden="true"><HudGlyph /></div>
+        <div className="dialogue-symbol"><NovaPortrait variant="dialogue" alt="" /></div>
         <div className="dialogue-box">
           <span className="dialogue-speaker">NOVA</span>
           <p>Missão analisada, {name}! Encontrei uma nave compatível com as suas coordenadas.</p>

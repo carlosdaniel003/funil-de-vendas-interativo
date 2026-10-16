@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { HudGlyph } from '../components/HudGlyph';
+import { NovaPortrait } from '../components/NovaPortrait';
 import { useSound } from '../features/audio/SoundProvider';
 import { TypewriterText } from '../components/TypewriterText';
 import type { QuizSession } from '../features/quiz/useQuiz';
@@ -35,7 +35,7 @@ export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
     <section className="quiz-entry quiz-screen" aria-labelledby="quiz-title">
       <div className="quiz-scene" key={question.id}>
         <div className="dialogue-section">
-          <div className="dialogue-symbol" aria-hidden="true"><HudGlyph /></div>
+          <div className="dialogue-symbol"><NovaPortrait variant="dialogue" alt="" /></div>
           <div className="dialogue-box">
             <span className="dialogue-speaker">NOVA</span>
             <p>

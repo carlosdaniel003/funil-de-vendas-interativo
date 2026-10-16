@@ -1,3 +1,5 @@
+import { NovaPortrait } from './NovaPortrait';
+
 interface SiteHeaderProps {
   progress: { step: number; total: number; complete: boolean; label?: string } | null;
 }
@@ -11,9 +13,10 @@ export function SiteHeader({ progress }: SiteHeaderProps) {
     <header className="site-header">
       <div className="header-inner">
         <div className="host-information">
-          <img className="host-avatar" src="/nova-avatar.svg" alt="Retrato ilustrado de Nova" width="44" height="44" />
+          <NovaPortrait variant="header" alt="Retrato ilustrado da Nova" />
           <span className="host-copy">
             <strong>NOVA</strong>
+            <span className="host-role">COMANDANTE DE MISSÃO</span>
           </span>
         </div>
         <div className="header-progress">

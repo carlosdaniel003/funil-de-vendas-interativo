@@ -15,7 +15,7 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 - Layout adaptado a celulares pequenos, médios e grandes, tablets e dispositivos em paisagem.
 - Áreas de toque dimensionadas, suporte às margens seguras do celular, formulários sem zoom automático e retorno ao topo em cada etapa.
 - Estilos responsivos separados em `src/styles/responsive.css`.
-- Perfil ilustrado quadrado da personagem **NOVA**, sem texto de status; transição temática entre perguntas.
+- Retrato vetorial da comandante **NOVA**, compartilhado entre cabeçalho, introdução e diálogos; transição temática entre perguntas.
 - Trilha espacial original sintetizada com Web Audio, com controle fixo de nota musical para desligar **todos os sons**; o botão fica translúcido quando silenciado.
 - Efeitos exclusivos de clique, seleção, transição, texto digitado, varredura, carregamento, erro, comemoração e revelação.
 - Vercel Web Analytics integrado para estatísticas de visitantes e visualizações de página, condicionado à habilitação no painel.
@@ -70,11 +70,12 @@ src/
   main.tsx                         # Inicializa React e Vercel Web Analytics
   components/
     SiteHeader.tsx                 # Retrato da Nova e progresso
+    NovaPortrait.tsx               # Uma única imagem da Nova em todas as telas
     TypewriterText.tsx             # Digitação progressiva das reações
     MusicToggle.tsx                # Controle fixo para ligar/desligar todo o áudio
     RocketIllustration.tsx         # Foguete com retículas de navegação
     ArcadeBackdrop.tsx             # Cenário vetorial decorativo, sem eventos
-    HudGlyph.tsx                   # Símbolo de radar reutilizado nos diálogos
+    HudGlyph.tsx                   # Símbolo de radar vetorial (reservado)
     ShipIllustration.tsx           # Silhuetas SVG por nave
   features/
     audio/
@@ -156,3 +157,9 @@ O design conserva sua hierarquia, botões, formulário, barra de progresso e tem
 A decoração usa SVG e CSS locais sem bibliotecas, scripts de animação em loop ou coleta de informações. O plano de fundo é marcado como decorativo (`aria-hidden`) e não intercepta eventos. Acessibilidade: animações de atmosfera respeitam `prefers-reduced-motion`; textos e botões continuam HTML sem sobreposição dos gráficos.
 
 Arquivos relevantes: `src/styles/arcade.css`, `src/components/ArcadeBackdrop.tsx`, `src/components/HudGlyph.tsx`, `src/components/RocketIllustration.tsx`, `src/components/ShipIllustration.tsx` e `public/nova-avatar.svg`.
+
+## Refinamento da abertura e da comandante Nova
+
+A identidade Sci-Fi Vector Arcade ganhou uma personagem vetorial mais detalhada, com headset, visor transparente, uniforme de bordo e elementos de HUD. **O arquivo `public/nova-avatar.svg` é a única fonte do retrato.** O componente `src/components/NovaPortrait.tsx` o reutiliza em escalas adaptativas no cabeçalho, na mensagem inicial e nos diálogos de pergunta, identificação e resultado.
+
+A abertura agora possui um cartão de transmissão de boas-vindas da Nova **entre o scanner do foguete e o botão COMEÇAR MISSÃO**, alinhado à referência de interface, com moldura técnica, bordas luminosas e indicadores locais. O botão recebeu acabamento vetorial e o scanner ganhou mais presença. Não foram alterados o formulário, a recomendação, as perguntas, os áudios ou os dados enviados. Todo o conteúdo é HTML/SVG acessível e utiliza as regras responsivas para celulares pequenos.

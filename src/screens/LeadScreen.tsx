@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { HudGlyph } from '../components/HudGlyph';
+import { NovaPortrait } from '../components/NovaPortrait';
 import { useSound } from '../features/audio/SoundProvider';
 
 interface LeadScreenProps {
@@ -47,7 +47,7 @@ export function LeadScreen({ onSubmit, onBack }: LeadScreenProps) {
   return (
     <section className="quiz-entry lead-screen" aria-labelledby="lead-title">
       <div className="dialogue-section">
-        <div className="dialogue-symbol" aria-hidden="true"><HudGlyph /></div>
+        <div className="dialogue-symbol"><NovaPortrait variant="dialogue" alt="" /></div>
         <div className="dialogue-box">
           <span className="dialogue-speaker">NOVA</span>
           <p>Já tenho suas coordenadas! Só preciso identificar o capitão para liberar a recomendação.</p>
