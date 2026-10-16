@@ -48,7 +48,15 @@ export function CelebrationScreen({ onFinish }: CelebrationScreenProps) {
         ))}
       </div>
       <div className="celebration-core">
-        <div className="celebration-spark" aria-hidden="true">✦</div>
+        <div className="celebration-spark" aria-hidden="true">
+          <svg className="celebration-vector-emblem" viewBox="0 0 120 120" focusable="false">
+            <circle cx="60" cy="60" r="41" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="5 9" />
+            <circle cx="60" cy="60" r="28" stroke="currentColor" strokeWidth="2" fill="none" opacity=".7" />
+            <path d="M60 10v23m0 54v23M10 60h23m54 0h23" stroke="currentColor" strokeWidth="2" />
+            <path d="m60 24 13 25 25 11-25 11-13 25-13-25-25-11 25-11Z" fill="currentColor" />
+            <path d="M60 43v34m-17-17h34" stroke="#164e31" strokeWidth="3" opacity=".65" />
+          </svg>
+        </div>
         <span className="completion-marker">COORDENADAS CONFIRMADAS</span>
         <h1 id="celebration-title">NAVE ENCONTRADA!</h1>
         <p>Preparando a apresentação da sua nave.</p>

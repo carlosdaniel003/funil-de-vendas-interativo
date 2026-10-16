@@ -4,7 +4,7 @@ Projeto didático em React + TypeScript + Vite para Vercel. Demonstra um funil i
 
 ## Estado atual — etapa 4: responsividade e animações do funil
 
-- Landing page responsiva com ilustrações SVG próprias.
+- Landing page responsiva com ilustrações SVG próprias e identidade **Sci-Fi Vector Arcade** (retrofuturismo vetorial).
 - Quiz de cinco perguntas, com quatro alternativas cada.
 - Reações contextuais com digitação progressiva; avanço automático **somente após o texto terminar**, navegação para trás e barra de progresso.
 - Formulário de demonstração com validação de nome e telefone fictícios.
@@ -72,7 +72,9 @@ src/
     SiteHeader.tsx                 # Retrato da Nova e progresso
     TypewriterText.tsx             # Digitação progressiva das reações
     MusicToggle.tsx                # Controle fixo para ligar/desligar todo o áudio
-    RocketIllustration.tsx         # Ilustração da abertura
+    RocketIllustration.tsx         # Foguete com retículas de navegação
+    ArcadeBackdrop.tsx             # Cenário vetorial decorativo, sem eventos
+    HudGlyph.tsx                   # Símbolo de radar reutilizado nos diálogos
     ShipIllustration.tsx           # Silhuetas SVG por nave
   features/
     audio/
@@ -94,6 +96,7 @@ src/
   styles/
     global.css                     # Estilos base, identidade e efeitos temáticos
     responsive.css                 # Layouts fluidos, breakpoints, toque e safe areas
+    arcade.css                     # Retrofuturismo vetorial e efeitos de navegação
 ```
 
 ## Etapas
@@ -145,3 +148,11 @@ Teste a imagem diretamente em `https://funil-de-vendas-interativo.vercel.app/og-
 Os seis resultados possíveis são: **Aurora ZX** (verde, exploradora delta), **Nebulon Q5** (azul, científica arredondada), **Solaris Prime** (dourada, nave de comando), **Vortex XR** (vermelha, interceptadora), **Atlas Cruiser** (laranja, cargueira blindada) e **Onyx Phantom** (roxa, furtiva em formato de manta). Cada uma possui SVG original, recursos, descrição e perfil próprio.
 
 A pontuação é baseada nas cinco respostas, validada contra todas as alternativas em `questions.ts`. Cada resposta atribui pontos de afinidade a três modelos. O desempate é estável, e nenhum sorteio influencia o resultado. A tela final usa `--ship-accent` e `--ship-shade` para harmonizar o cartão com a nave sem alterar as demais telas.
+
+## Direção artística: Sci-Fi Vector Arcade
+
+O design conserva sua hierarquia, botões, formulário, barra de progresso e tema verde. A direção artística é aplicada **por cima**, com efeitos discretos de computador de bordo: starfield vetorial decorativo, órbitas e coordenadas, emblema de radar, cantos técnicos, scanner e marcadores holográficos em torno de cada nave. As seis silhuetas e cores próprias permanecem distintas. A personagem Nova tem acessórios de comunicação e visor translúcido no SVG original.
+
+A decoração usa SVG e CSS locais sem bibliotecas, scripts de animação em loop ou coleta de informações. O plano de fundo é marcado como decorativo (`aria-hidden`) e não intercepta eventos. Acessibilidade: animações de atmosfera respeitam `prefers-reduced-motion`; textos e botões continuam HTML sem sobreposição dos gráficos.
+
+Arquivos relevantes: `src/styles/arcade.css`, `src/components/ArcadeBackdrop.tsx`, `src/components/HudGlyph.tsx`, `src/components/RocketIllustration.tsx`, `src/components/ShipIllustration.tsx` e `public/nova-avatar.svg`.

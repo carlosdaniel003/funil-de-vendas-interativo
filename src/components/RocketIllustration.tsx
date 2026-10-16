@@ -18,6 +18,13 @@ export function RocketIllustration() {
         </radialGradient>
       </defs>
       <circle cx="160" cy="150" r="136" fill="url(#halo)" />
+      <g className="rocket-vector-hud" fill="none" stroke="#95fcb9">
+        <circle cx="160" cy="150" r="115" strokeWidth="1.5" strokeOpacity=".31" strokeDasharray="8 14" />
+        <circle className="rocket-vector-hud__orbit" cx="160" cy="150" r="131" strokeWidth="1" strokeOpacity=".4" strokeDasharray="2 18" />
+        <path d="M27 77v-20h22M271 57h22v20M27 221v20h22M271 241h22v-20" strokeWidth="2" strokeOpacity=".8" />
+        <path d="M31 150h31m196 0h31M160 11v21M160 259v20" strokeWidth="1.4" strokeOpacity=".48" />
+        <path d="m43 122 7-7m220 70 7-7" strokeWidth="2.2" strokeOpacity=".85" />
+      </g>
       <ellipse cx="160" cy="255" rx="98" ry="14" fill="#21c769" fillOpacity="0.08" />
       <path d="M138 204h44l-9 70-13 16-13-16z" fill="url(#flame)" className="rocket-flame" />
       <path d="M141 202h38l-10 39h-18z" fill="#477b5b" stroke="#a3f5b0" strokeWidth="2" />

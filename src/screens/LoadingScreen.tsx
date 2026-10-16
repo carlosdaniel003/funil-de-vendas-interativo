@@ -31,12 +31,16 @@ export function LoadingScreen({ onFinish }: LoadingScreenProps) {
   return (
     <section className="loading-screen" aria-labelledby="loading-title" aria-busy="true">
       <div className="loading-orbit" aria-hidden="true">
+        <span className="loading-reticle" />
         <span className="loading-planet" />
         <span className="loading-satellite" />
       </div>
+      <div className="arcade-sector-row arcade-sector-row--center" aria-hidden="true">
+        <span>VARREDURA // SISTEMA NOVA</span><span>6 PERFIS</span>
+      </div>
       <div className="completion-marker">ANÁLISE EM ANDAMENTO</div>
       <h1 id="loading-title" className="stage-title">CALCULANDO SUA ROTA...</h1>
-      <p>Comparando suas escolhas com quatro naves do catálogo fictício.</p>
+      <p>Comparando suas escolhas com seis naves do catálogo fictício.</p>
       <div className="loading-track" aria-hidden="true"><span /></div>
       <p role="status" className="advance-notice">PROCESSANDO COORDENADAS</p>
     </section>

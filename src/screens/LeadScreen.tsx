@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { HudGlyph } from '../components/HudGlyph';
 import { useSound } from '../features/audio/SoundProvider';
 
 interface LeadScreenProps {
@@ -46,11 +47,14 @@ export function LeadScreen({ onSubmit, onBack }: LeadScreenProps) {
   return (
     <section className="quiz-entry lead-screen" aria-labelledby="lead-title">
       <div className="dialogue-section">
-        <div className="dialogue-symbol" aria-hidden="true">✦</div>
+        <div className="dialogue-symbol" aria-hidden="true"><HudGlyph /></div>
         <div className="dialogue-box">
           <span className="dialogue-speaker">NOVA</span>
           <p>Já tenho suas coordenadas! Só preciso identificar o capitão para liberar a recomendação.</p>
         </div>
+      </div>
+      <div className="arcade-sector-row" aria-hidden="true">
+        <span>PROTOCOLO // IDENTIFICAÇÃO</span><span>01 · CAPITÃO</span>
       </div>
       <span className="completion-marker">QUASE LÁ · ÚLTIMA TRANSMISSÃO</span>
       <h1 id="lead-title" className="stage-title">IDENTIFIQUE-SE</h1>

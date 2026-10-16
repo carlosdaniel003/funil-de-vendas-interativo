@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
+import { HudGlyph } from '../components/HudGlyph';
 import { useSound } from '../features/audio/SoundProvider';
 import { ShipIllustration } from '../components/ShipIllustration';
 import { questions, type QuizAnswers } from '../features/quiz/questions';
@@ -54,7 +55,7 @@ export function ResultScreen({ name, recommendation, answers, onRestart, onHome 
       style={{ '--ship-accent': ship.accent, '--ship-shade': ship.shade } as CSSProperties}
     >
       <div className="dialogue-section">
-        <div className="dialogue-symbol" aria-hidden="true">✦</div>
+        <div className="dialogue-symbol" aria-hidden="true"><HudGlyph /></div>
         <div className="dialogue-box">
           <span className="dialogue-speaker">NOVA</span>
           <p>Missão analisada, {name}! Encontrei uma nave compatível com as suas coordenadas.</p>
@@ -62,7 +63,11 @@ export function ResultScreen({ name, recommendation, answers, onRestart, onHome 
       </div>
       <article className="result-card">
         <div className="result-ribbon">RECOMENDADA PARA SUA MISSÃO</div>
-        <div className="result-art"><ShipIllustration shipId={ship.id} name={ship.name} /></div>
+        <div className="result-art">
+          <span className="result-art__label" aria-hidden="true">HOLOGRAMA // {ship.id.toUpperCase()}</span>
+          <ShipIllustration shipId={ship.id} name={ship.name} />
+          <span className="result-art__status" aria-hidden="true">MODELO CONFIRMADO · 100%</span>
+        </div>
         <span className="result-category">{ship.className}</span>
         <h1 id="result-title">{ship.name}</h1>
         <p className="result-tagline">{ship.tagline}</p>

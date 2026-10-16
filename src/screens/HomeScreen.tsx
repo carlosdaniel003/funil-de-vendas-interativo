@@ -17,6 +17,7 @@ export function HomeScreen({ onStart }: HomeScreenProps) {
         <span>⌁ MENOS DE 1 MINUTO</span>
       </div>
       <div className="rocket-stage">
+        <div className="rocket-hud-caption" aria-hidden="true"><span>VECTOR SCANNER // NAV 07</span><span>◉ SISTEMA OPERANTE</span></div>
         <div className="stage-notation stage-notation--left">SETOR 07<br />COORD. 0042</div>
         <RocketIllustration />
         <div className="stage-notation stage-notation--right">SINAL<br />ESTÁVEL</div>

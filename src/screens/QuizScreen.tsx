@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { HudGlyph } from '../components/HudGlyph';
 import { useSound } from '../features/audio/SoundProvider';
 import { TypewriterText } from '../components/TypewriterText';
 import type { QuizSession } from '../features/quiz/useQuiz';
@@ -34,7 +35,7 @@ export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
     <section className="quiz-entry quiz-screen" aria-labelledby="quiz-title">
       <div className="quiz-scene" key={question.id}>
         <div className="dialogue-section">
-          <div className="dialogue-symbol" aria-hidden="true">✦</div>
+          <div className="dialogue-symbol" aria-hidden="true"><HudGlyph /></div>
           <div className="dialogue-box">
             <span className="dialogue-speaker">NOVA</span>
             <p>
@@ -53,6 +54,10 @@ export function QuizScreen({ quiz, onExit }: QuizScreenProps) {
             </p>
             <span className="sr-only" role="status" aria-live="polite">{quiz.isReacting ? dialogueText : ''}</span>
           </div>
+        </div>
+        <div className="arcade-sector-row" aria-hidden="true">
+          <span>SEQUÊNCIA // {String(quiz.stepIndex + 1).padStart(2, '0')}</span>
+          <span>SCAN 0{quiz.totalSteps} · {quiz.isReacting ? 'DECODIFICANDO' : 'AGUARDANDO COMANDO'}</span>
         </div>
         <div className="question-heading">
           <h1 id="quiz-title">{question.title}</h1>

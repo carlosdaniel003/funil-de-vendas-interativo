@@ -168,6 +168,16 @@ export function ShipIllustration({ shipId, name }: ShipIllustrationProps) {
         </radialGradient>
       </defs>
       <ellipse cx="210" cy="170" rx="194" ry="142" fill={'url(#' + aura + ')'} />
+      <g className="ship-vector-interface" fill="none" stroke={ship.accent}>
+        <circle className="ship-vector-interface__orbit" cx="210" cy="160" r="149" strokeWidth="1.25" strokeOpacity=".33" strokeDasharray="3 13" />
+        <path d="M42 80V51h28M350 51h28v29M42 240v28h28M350 268h28v-28" strokeWidth="2" strokeOpacity=".56" />
+        <path d="M210 12v27M210 281v27M30 160h24M366 160h24" strokeWidth="1.5" strokeOpacity=".3" />
+        <path d="m62 120 12-12m275 104 12-12" strokeWidth="2" strokeOpacity=".58" />
+      </g>
+      <g className="ship-vector-interface__readout" fill={ship.accent} opacity=".75" fontFamily="monospace" fontSize="11" letterSpacing="1">
+        <text x="44" y="42">ARC / 06</text>
+        <text x="298" y="42">{shipId.toUpperCase()}</text>
+      </g>
       <ellipse cx="210" cy="291" rx="130" ry="10" fill={ship.accent} opacity=".15" />
       <path d="M24 275h75m222 0h75" stroke={ship.accent} strokeOpacity=".45" strokeWidth="1.5" />
       <g fill={ship.accent} opacity=".82">

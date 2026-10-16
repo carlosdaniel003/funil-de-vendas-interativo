@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { SiteHeader } from './components/SiteHeader';
+import { ArcadeBackdrop } from './components/ArcadeBackdrop';
 import { MusicToggle } from './components/MusicToggle';
 import { CelebrationScreen } from './screens/CelebrationScreen';
 import { recommendShip } from './features/recommendation/recommend';
@@ -52,6 +53,7 @@ export function App() {
 
   return (
     <div className="app-shell">
+      <ArcadeBackdrop />
       <SiteHeader progress={progress} />
       <main className="main-content" ref={mainRef} tabIndex={-1}>
         {view === 'home' && <HomeScreen onStart={() => reset('quiz')} />}
