@@ -1,0 +1,211 @@
+/* Inicio mobile em uma unica tela — apenas quando a home esta ativa.
+ * Usa o viewport dinamico (a area realmente visivel, descontando as barras).
+ * Em alturas impossiveis ou com ampliacao de texto, permite rolar em vez de cortar.
+ */
+@media (max-width: 600px) and (orientation: portrait) {
+  .app-shell--home {
+    height: 100vh; /* fallback */
+    height: 100svh;
+    height: 100dvh;
+    min-height: 0;
+  }
+
+  .app-shell--home .site-header,
+  .app-shell--home .site-footer {
+    flex-shrink: 0;
+  }
+
+  .app-shell--home .header-inner {
+    padding-block: clamp(6px, 1.3dvh, 11px);
+  }
+
+  .app-shell--home .nova-portrait--header {
+    width: clamp(40px, 6.9dvh, 51px);
+  }
+
+  .app-shell--home .main-content {
+    flex: 1 1 0;
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .app-shell--home .home-screen {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto minmax(62px, 1fr) auto auto auto;
+    gap: clamp(3px, .7dvh, 8px);
+    align-content: stretch;
+    min-height: 0;
+    height: 100%;
+    width: min(100%, 500px);
+    padding: clamp(5px, 1dvh, 10px) var(--mobile-gutter) clamp(3px, .6dvh, 7px);
+    margin-inline: auto;
+  }
+
+  .app-shell--home .home-screen .eyebrow {
+    justify-self: center;
+    margin: 0;
+    padding: 5px 13px;
+    font-size: clamp(8px, 2.3vw, 10px);
+    line-height: 1.3;
+    letter-spacing: .025em;
+    box-shadow: 2px 3px 0 rgba(26, 80, 42, .7);
+  }
+
+  .app-shell--home .home-screen .hero-title {
+    margin: 0;
+    font-size: clamp(21px, 7.8vw, 33px);
+    line-height: 1.06;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+  }
+
+  .app-shell--home .home-screen .hero-description {
+    margin: 0 auto;
+    max-width: 440px;
+    font-size: clamp(11px, 3vw, 14px);
+    line-height: 1.35;
+  }
+
+  .app-shell--home .home-screen .hero-tags {
+    justify-self: center;
+    margin: 0;
+    gap: 5px;
+  }
+
+  .app-shell--home .home-screen .hero-tags span {
+    padding: 4px 7px;
+    font-size: clamp(9px, 2.35vw, 11px);
+    line-height: 1.2;
+  }
+
+  /* O foguete se adapta ao espaco livre; nunca reserva os antigos 260px. */
+  .app-shell--home .home-screen .rocket-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    height: 100%;
+    min-height: 0;
+    margin: 0 auto;
+  }
+
+  .app-shell--home .home-screen .rocket-illustration {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    flex: none;
+  }
+
+  .app-shell--home .home-screen .rocket-stage::before {
+    width: auto;
+    height: min(96%, 310px);
+    aspect-ratio: 1;
+  }
+
+  .app-shell--home .home-screen .rocket-stage::after {
+    bottom: 0;
+  }
+
+  .app-shell--home .home-screen .rocket-hud-caption {
+    top: 2px;
+    font-size: clamp(7px, 1.9vw, 9px);
+  }
+
+  .app-shell--home .home-screen .nova-intro {
+    grid-template-columns: clamp(58px, 17vw, 82px) minmax(0, 1fr);
+    justify-items: stretch;
+    gap: clamp(8px, 2.4vw, 14px);
+    padding: clamp(9px, 1.8vw, 12px);
+    margin: 0;
+  }
+
+  .app-shell--home .home-screen .nova-portrait--intro {
+    width: 100%;
+    max-width: 82px;
+  }
+
+  .app-shell--home .home-screen .nova-intro__heading {
+    margin-bottom: 3px;
+    gap: 4px;
+  }
+
+  .app-shell--home .home-screen .nova-intro__heading strong {
+    font-size: clamp(13px, 3.5vw, 16px);
+  }
+
+  .app-shell--home .home-screen .nova-intro__message p {
+    font-size: clamp(11px, 2.95vw, 13px);
+    line-height: 1.34;
+  }
+
+  .app-shell--home .home-screen .nova-intro__transmission {
+    margin-top: 5px;
+    padding-top: 4px;
+    font-size: 8px;
+  }
+
+  .app-shell--home .home-screen .home-launch {
+    margin: 0;
+  }
+
+  .app-shell--home .home-screen .primary-button {
+    min-height: 48px;
+    padding: 10px 12px;
+    font-size: clamp(15px, 4vw, 19px);
+    line-height: 1.2;
+  }
+
+  .app-shell--home .home-screen .support-text {
+    margin: 0;
+    font-size: clamp(9px, 2.35vw, 11px);
+    line-height: 1.2;
+  }
+
+  .app-shell--home .site-footer {
+    padding: 6px 67px 6px 14px;
+    padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
+    font-size: 9px;
+    line-height: 1.2;
+  }
+}
+
+/* Celulares com menos altura: preservar acao principal e retirar enfeites
+ * secundarios, sem esconder o titulo, o retrato ou o botao. */
+@media (max-width: 600px) and (orientation: portrait) and (max-height: 700px) {
+  .app-shell--home .home-screen {
+    gap: clamp(2px, .45dvh, 5px);
+    grid-template-rows: auto auto auto auto minmax(50px, 1fr) auto auto auto;
+  }
+
+  .app-shell--home .home-screen .hero-title { font-size: clamp(21px, 7.2vw, 31px); }
+  .app-shell--home .home-screen .eyebrow { padding-block: 4px; }
+  .app-shell--home .home-screen .nova-intro__transmission { display: none; }
+  .app-shell--home .home-screen .nova-intro { padding: 8px 10px; }
+  .app-shell--home .home-screen .nova-portrait--intro { max-width: 65px; }
+  .app-shell--home .home-screen .primary-button { padding-block: 8px; }
+}
+
+@media (max-width: 600px) and (orientation: portrait) and (max-height: 590px) {
+  .app-shell--home .home-screen { grid-template-rows: auto auto auto auto minmax(43px, 1fr) auto auto; }
+  .app-shell--home .home-screen .support-text { display: none; }
+  .app-shell--home .home-screen .hero-description { font-size: 11px; }
+  .app-shell--home .home-screen .rocket-hud-caption { display: none; }
+  .app-shell--home .site-footer { padding-block: 4px; }
+}
+
+/* Na faixa excepcionalmente estreita, a foto e a fala continuam lado a lado. */
+@media (max-width: 300px) and (orientation: portrait) {
+  .app-shell--home .home-screen .nova-intro {
+    grid-template-columns: 51px minmax(0, 1fr);
+    justify-items: stretch;
+  }
+  .app-shell--home .home-screen .nova-portrait--intro { max-width: 51px; }
+  .app-shell--home .home-screen .nova-intro__message { text-align: left; }
+  .app-shell--home .home-screen .nova-intro__transmission { justify-content: flex-start; }
+}

@@ -163,3 +163,9 @@ Arquivos relevantes: `src/styles/arcade.css`, `src/components/ArcadeBackdrop.tsx
 A identidade Sci-Fi Vector Arcade ganhou uma personagem vetorial mais detalhada, com headset, visor transparente, uniforme de bordo e elementos de HUD. **O arquivo `public/nova-avatar.svg` é a única fonte do retrato.** O componente `src/components/NovaPortrait.tsx` o reutiliza em escalas adaptativas no cabeçalho, na mensagem inicial e nos diálogos de pergunta, identificação e resultado.
 
 A abertura agora possui um cartão de transmissão de boas-vindas da Nova **entre o scanner do foguete e o botão COMEÇAR MISSÃO**, alinhado à referência de interface, com moldura técnica, bordas luminosas e indicadores locais. O botão recebeu acabamento vetorial e o scanner ganhou mais presença. Não foram alterados o formulário, a recomendação, as perguntas, os áudios ou os dados enviados. Todo o conteúdo é HTML/SVG acessível e utiliza as regras responsivas para celulares pequenos.
+
+## Tela inicial sem rolagem em celulares
+
+A tela inicial agora recebe a classe `app-shell--home` e um grid de altura flexível de `src/styles/home-viewport.css`, importado depois dos estilos globais e da identidade Arcade. Em modo retrato em celulares, a página usa `100dvh` (com fallback), reserva espaço para cabeçalho, Nova, botão e rodapé, e atribui **o espaço restante ao foguete SVG**, sem a antiga altura mínima fixa de 260 px. O convite da Nova foi abreviado sem alterar a proposta da missão. Em aparelhos baixos, detalhes secundários são reduzidos para priorizar o CTA.
+
+A solução evita rolagem nas alturas usuais, mas **não oculta conteúdo quando há zoom do navegador, fontes ampliadas ou viewport excepcionalmente baixo**. Nesses cenários, rolar é preferível a cortar o botão ou elementos de acessibilidade. Outras telas não são alteradas.

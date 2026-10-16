@@ -52,7 +52,7 @@ export function App() {
   };
 
   return (
-    <div className="app-shell">
+    <div className={'app-shell' + (view === 'home' ? ' app-shell--home' : '')}>
       <ArcadeBackdrop />
       <SiteHeader progress={progress} />
       <main className="main-content" ref={mainRef} tabIndex={-1}>

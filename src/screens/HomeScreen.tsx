@@ -36,8 +36,7 @@ export function HomeScreen({ onStart }: HomeScreenProps) {
             <span aria-hidden="true">CANAL 01 // ONLINE</span>
           </div>
           <p>
-            Olá, comandante! Vamos descobrir qual nave combina com você?
-            Responda 5 perguntas rápidas e eu te mostrarei o resultado no final da missão.
+            Olá, comandante! Em cinco decisões, vou encontrar a nave ideal para a sua missão.
           </p>
           <div className="nova-intro__transmission" aria-hidden="true">
             <span>TRANSMISSÃO SEGURA</span>

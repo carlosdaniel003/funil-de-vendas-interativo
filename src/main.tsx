@@ -6,6 +6,7 @@ import { SoundProvider } from './features/audio/SoundProvider';
 import './styles/global.css';
 import './styles/responsive.css';
 import './styles/arcade.css';
+import './styles/home-viewport.css';
 
 const rootElement = document.getElementById('root');
 
