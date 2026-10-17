@@ -136,6 +136,9 @@ Os efeitos são CSS/React locais, sem bibliotecas de animação nem chamadas ext
 - Digitação produz bipes espaçados (limitados para não sobrecarregar a trilha). Carregamento emite pulsos de varredura e um breve aviso sonoro de conclusão antes dos confetes; comemoração e revelação têm assinaturas sonoras diferentes.
 - A música permanece no fluxo completo; não reinicia a cada pergunta. Efeitos sonoros param imediatamente quando o usuário silencia.
 - Teclado, toque e mouse são suportados; a liberação de áudio ocorre na primeira interação permitida.
+- **Segundo plano:** ao minimizar o navegador, mudar para outra aba, trocar de aplicativo ou sair da página, música e efeitos são interrompidos. O navegador fecha o contexto Web Audio, para descartar notas programadas que poderiam continuar tocando.
+- **Retorno:** ao voltar para a aba, o motor é recriado e a trilha reinicia automaticamente se o som ainda estiver ativado; se o usuário desligou pelo botão de nota musical, permanece desligado. Em celulares, a retomada continua sujeita à política de autoplay do navegador e pode precisar de um toque na página.
+- Os eventos `visibilitychange`, `blur/focus`, `pagehide/pageshow` e `freeze/resume` cobrem o ciclo de vida de abas e aplicativos no Android e iOS. Os eventos são removidos no desmontar do componente.
 
 ## Prévia de compartilhamento (WhatsApp, Facebook e X)
 
